@@ -11,10 +11,10 @@ The purpose of this project is to provide you with an opportunity to put into pr
 
 Use the following checklist to ensure that you have completed all of the tasks.
 
-- [ ] Read through README
-- [ ] Find 1 or 2 other individuals who you want to work with and form a team. (NOTE: unless you have specifically been given permission to do so, you may not work alone.)
-- [ ] Create a repo using this repo as the template. Name your repo "FP_Name1_Name2_Name3" where Name# are the team member's names.
-- [ ] Make sure that each team member has access to the repo.
+- [x] Read through README
+- [x] Find 1 or 2 other individuals who you want to work with and form a team. (NOTE: unless you have specifically been given permission to do so, you may not work alone.)
+- [x] Create a repo using this repo as the template. Name your repo "FP_Name1_Name2_Name3" where Name# are the team member's names.
+- [x] Make sure that each team member has access to the repo.
 - [ ] Come up with a topic and set of research questions your team will explore.
 - [ ] Make a plan for your work. (Target Completion: <mark>Wednesday, Nov. 29, 2023</mark>)
 - [ ] Locate appropriate data sources for your project.
