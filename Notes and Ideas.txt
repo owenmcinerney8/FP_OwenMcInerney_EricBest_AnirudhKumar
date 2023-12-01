@@ -1,0 +1,9 @@
+Collaboration Text File:
+
+Potential Data Sources:
+Washington State EV Database:
+Includes MSRP, excursion time using a full charge, etc
+https://data.wa.gov/Transportation/Electric-Vehicle-Population-Data/f6w7-q2d2
+
+Data.gov sources:
+https://catalog.data.gov/dataset/electric-vehicle-charging-stations
