@@ -1,9 +1,40 @@
-Collaboration Text File:
+|-----------------------|
+|Collaboration Text File|
+|-----------------------|
 
-Potential Data Sources:
-Washington State EV Database:
-Includes MSRP, excursion time using a full charge, etc
+------------------------
+-Potential Data Sources-
+------------------------
+
+(1) Jeff Swanson's EV Dataset:
+- Includes a wide variety of automobiles
+- Data not updated for a long time (Use to compare then and now?)
+
+https://data.world/jeffgswanson/electric-vehicle-by-year
+
+(2) New York State EV Rebate Program Dataset:
+- Dataset from a state other than Washington
+- Contains other useful information about EV's
+
+https://data.world/data-ny-gov/thd2-fu8y
+
+(3) Washington State EV Database:
+- Includes MSRP, excursion time using a full charge, etc
+- Most current data thus far
+
 https://data.wa.gov/Transportation/Electric-Vehicle-Population-Data/f6w7-q2d2
 
-Data.gov sources:
+(4) Data.gov sources:
+- Includes information on charging stations
+
 https://catalog.data.gov/dataset/electric-vehicle-charging-stations
+
+----------------------------
+-Data Exploration Questions-
+----------------------------
+1. (Eric) How common are charging stations? Answer: We will use the study in (4) to create a map of charging stations and then analyze the data
+
+2. (Eric) What vehicle has the longest excursion time/length on a full-charge? Answer: We will use the study in (3) to analyze this data. Note on electric vehicles:
+Weather can affect their performance, especially when it's cold.
+
+3. (Eric) Which vehicles are the most cost-efficient when compared with traditional ICE cars? Answer: We must find a dataset which discusses these economic factors.
