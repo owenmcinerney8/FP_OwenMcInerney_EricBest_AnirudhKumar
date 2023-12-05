@@ -12,3 +12,71 @@
 
 #3. Which vehicles are the most cost-efficient when compared with traditional ICE cars? 
 #   Answer: We must find a dataset which discusses these economic factors.
+
+
+#---------------------
+#-Data Visualizations-
+#---------------------
+##1. 
+
+library(groundhog)
+groundhog.day="2023-11-20"
+
+pkgs=c('here', 'leaflet', 'dplyr')
+groundhog.library(pkgs, groundhog.day)
+
+csv_path <- here("EVgovcharge.csv")
+EVgovcharge <- read.csv(csv_path)
+
+## Data Tidying
+## The station names are easily extracted.
+stationNames <- EVgovcharge$Station.Name
+## The station's latitude and longitude aren't as easy
+## The dataset formats the coordinates as follows: POINT (-72.773473 41.527367)
+## We need to remove POINT, the spaces, and the parentheses.
+
+stationCoord <- EVgovcharge$New.Georeferenced.Column
+
+latitude_raw <- numeric(nrow(EVgovcharge))
+longitude_raw <- numeric(nrow(EVgovcharge))
+
+for (i in 1:nrow(EVgovcharge))
+{
+  ## Change the case's coordinates field to a string
+  coordinates <- as.character(EVgovcharge$New.Georeferenced.Column[i])
+
+  ## We make an array called extracted_numbers that will contain the pertinent coordinates
+  ## Use gsub on coordinates, which will remove remove any character that is not a number, a period, or a minus sign
+  ## We then pipe that argument to strsplit with another regular expression called "\\s+", a regex that matches one or more whitespace characters
+  ## strsplit converts the coordinates string above into a vector of substrings
+  ## Lastly, unlist converts those strings into one vector, and as.numeric turns those into a number
+  extracted_numbers <- coordinates %>%
+    gsub("[^0-9.-]", " ", .) %>%
+    strsplit("\\s+") %>%
+    unlist() %>%
+    as.numeric()
+  latitude_raw[i] <- extracted_numbers[2]  # Second number is latitude
+  longitude_raw[i] <- extracted_numbers[3]  # Third number is longitude
+}
+name <- stationNames
+latitude <- latitude_raw
+longitude <- longitude_raw
+
+
+# Create a data frame with station coordinates and names
+station_data <- data.frame(
+  Name = stationNames,
+  Latitude = latitude,
+  Longitude = longitude
+)
+print(station_data)
+
+
+# Create the leaflet map
+EVchargemap <- leaflet() %>%
+  addTiles() %>%
+  setView(lng = -95.7129, lat = 37.0902, zoom = 4) %>%  # Center the map around the USA
+  addMarkers(data = station_data, lng = ~Longitude, lat = ~Latitude, popup = ~Name)
+
+# Display the map
+EVchargemap
