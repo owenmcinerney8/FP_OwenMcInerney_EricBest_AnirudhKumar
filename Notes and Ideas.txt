@@ -41,6 +41,11 @@ https://data.wa.gov/Transportation/Electric-Vehicle-Population-Data/f6w7-q2d2
 - Includes information on charging stations
 https://catalog.data.gov/dataset/alternative-fueling-station-locations-422f2
 
+(5) IEA EV Dataset:
+- Includes global EV data by country
+- excel file, tidy => need to wrangle data to change cases
+https://www.iea.org/data-and-statistics/data-product/global-ev-outlook-2023#global-ev-data
+
 
 ----------------------------
 -Data Exploration Questions-
@@ -51,3 +56,7 @@ https://catalog.data.gov/dataset/alternative-fueling-station-locations-422f2
 Weather can affect their performance, especially when it's cold.
 
 3. (Eric) Which vehicles are the most cost-efficient when compared with traditional ICE cars? Answer: We must find a dataset which discusses these economic factors.
+
+4. (Owen) How has global EV usage changed over the years?
+
+5. (Owen) Which countries lead in EV usage?  Which countries are lagging behind?
