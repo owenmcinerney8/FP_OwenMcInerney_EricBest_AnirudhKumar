@@ -1,5 +1,17 @@
-Research Questions:
+--------------------
+-Research Questions-
+--------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+(4) 
+Question: How has global EV usage changed over the years?
+Goal: to create a histogram of total global electric cars PRODUCED each year
+Data: IEA dataset
 
-4. (Owen) How has global EV usage changed over the years?
+Data Wrangling:
+  - Need to change the case to be counts of electric cars
+  - attributes of year, country, count
 
-5. (Owen) Which countries lead in EV usage?  Which countries are lagging behind?
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+(5) (Owen) Which countries lead in EV usage?  Which countries are lagging behind?
+  - create a table for top 10 and bottom 10 countries (of last 3 years) for EV usage
+
