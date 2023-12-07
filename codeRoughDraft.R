@@ -19,12 +19,17 @@
 #---------------------
 ##1. 
 
+## Use groundhog to make sure the code runs mostly everywhere
 library(groundhog)
 groundhog.day="2023-11-20"
 
+## We need 'here' for using a relative filepath
+## 'leaflet' will display the map of charging stations
+## 'dplyr' is brought in for tidying data
 pkgs=c('here', 'leaflet', 'dplyr')
 groundhog.library(pkgs, groundhog.day)
 
+## Using 'here' for a relative filepath
 csv_path <- here("EVgovcharge.csv")
 EVgovcharge <- read.csv(csv_path)
 
@@ -46,17 +51,25 @@ for (i in 1:nrow(EVgovcharge))
   coordinates <- as.character(EVgovcharge$New.Georeferenced.Column[i])
 
   ## We make an array called extracted_numbers that will contain the pertinent coordinates
-  ## Use gsub on coordinates, which will remove remove any character that is not a number, a period, or a minus sign
-  ## We then pipe that argument to strsplit with another regular expression called "\\s+", a regex that matches one or more whitespace characters
+  ## Use "gsub" on coordinates, which will remove remove any character that is not a number, a period, or a minus sign
+  ## "[^0-9.-]" is a regular expression from Java that will define that removal of characters, as per coordinate system specifications
+  ## '^' is a negation character to remove the characters that don't immediately follow it
+  ## Use the '.' operator next to specify we want to work on extracted_numbers
+  ## Also given to gsub is " " to remove any non-numbers and replace with spaces. Using '.' to reference 
+  ## We then pipe that argument to strsplit with another regular expression called "\\s+", a regex from Java that matches one or more whitespace characters
   ## strsplit converts the coordinates string above into a vector of substrings
-  ## Lastly, unlist converts those strings into one vector, and as.numeric turns those into a number
+  ## unlist converts those characters into one vector
+  ## as.numeric turns those into a number to be used with Leaflet
   extracted_numbers <- coordinates %>%
     gsub("[^0-9.-]", " ", .) %>%
     strsplit("\\s+") %>%
     unlist() %>%
     as.numeric()
-  latitude_raw[i] <- extracted_numbers[2]  # Second number is latitude
-  longitude_raw[i] <- extracted_numbers[3]  # Third number is longitude
+  ## print(extracted_numbers)
+  ## This is an object with apparent dummy data in the 0th and 1st elements
+  ## Corroborated coordinates with Google Data
+  longitude_raw[i] <- extracted_numbers[2]  # Second number is longitude
+  latitude_raw[i] <- extracted_numbers[3]  # Third number is latitude
 }
 name <- stationNames
 latitude <- latitude_raw
@@ -69,14 +82,11 @@ station_data <- data.frame(
   Latitude = latitude,
   Longitude = longitude
 )
-print(station_data)
-
 
 # Create the leaflet map
-EVchargemap <- leaflet() %>%
-  addTiles() %>%
+EVchargemap <- leaflet(data = station_data) %>%
   setView(lng = -95.7129, lat = 37.0902, zoom = 4) %>%  # Center the map around the USA
-  addMarkers(data = station_data, lng = ~Longitude, lat = ~Latitude, popup = ~Name)
-
+  addTiles() %>%  # Add map tiles as the base layer
+  addMarkers(lat = ~Latitude, lng = ~Longitude, popup = ~Name)  # Add markers using longitude, latitude, and station names as popups
 # Display the map
 EVchargemap
