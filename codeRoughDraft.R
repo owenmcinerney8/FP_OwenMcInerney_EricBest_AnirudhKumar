@@ -17,7 +17,8 @@
 #---------------------
 #-Data Visualizations-
 #---------------------
-##1. 
+##1. How common are charging stations? 
+#    
 
 ## Use groundhog to make sure the code runs mostly everywhere
 library(groundhog)
@@ -26,57 +27,32 @@ groundhog.day="2023-11-20"
 ## We need 'here' for using a relative filepath
 ## 'leaflet' will display the map of charging stations
 ## 'dplyr' is brought in for tidying data
-pkgs=c('here', 'leaflet', 'dplyr')
+pkgs=c('here', 'leaflet', 'dplyr', 'geosphere')
 groundhog.library(pkgs, groundhog.day)
 
 ## Using 'here' for a relative filepath
-csv_path <- here("EVgovcharge.csv")
-EVgovcharge <- read.csv(csv_path)
+csv_path <- here("EVfuelstations.csv")
+EVfuelstations <- read.csv(csv_path)
 
 ## Data Tidying
-## The station names are easily extracted.
-stationNames <- EVgovcharge$Station.Name
-## The station's latitude and longitude aren't as easy
-## The dataset formats the coordinates as follows: POINT (-72.773473 41.527367)
-## We need to remove POINT, the spaces, and the parentheses.
+## This dataset includes a column called "Fuel Type Code" that can stand for electric, CNG, etc
+## We want to only consider the fuel stations that are ELEC
+## Then we only want to look at charging stations in Pennsylvania
+filtered_stations <- EVfuelstations %>% filter(Fuel.Type.Code == "ELEC") %>%
+  filter(State == "PA")
 
-stationCoord <- EVgovcharge$New.Georeferenced.Column
+num_stations = nrow(filtered_stations)
 
-latitude_raw <- numeric(nrow(EVgovcharge))
-longitude_raw <- numeric(nrow(EVgovcharge))
+print("Number of EV Charging Stations in PA:")
+print(num_stations)
 
-for (i in 1:nrow(EVgovcharge))
-{
-  ## Change the case's coordinates field to a string
-  coordinates <- as.character(EVgovcharge$New.Georeferenced.Column[i])
+## The station names and coordinates are easily selected
+stationNames <- filtered_stations$Station.Name
+latitude <- filtered_stations$Latitude
+longitude <- filtered_stations$Longitude
 
-  ## We make an array called extracted_numbers that will contain the pertinent coordinates
-  ## Use "gsub" on coordinates, which will remove remove any character that is not a number, a period, or a minus sign
-  ## "[^0-9.-]" is a regular expression from Java that will define that removal of characters, as per coordinate system specifications
-  ## '^' is a negation character to remove the characters that don't immediately follow it
-  ## Use the '.' operator next to specify we want to work on extracted_numbers
-  ## Also given to gsub is " " to remove any non-numbers and replace with spaces. Using '.' to reference 
-  ## We then pipe that argument to strsplit with another regular expression called "\\s+", a regex from Java that matches one or more whitespace characters
-  ## strsplit converts the coordinates string above into a vector of substrings
-  ## unlist converts those characters into one vector
-  ## as.numeric turns those into a number to be used with Leaflet
-  extracted_numbers <- coordinates %>%
-    gsub("[^0-9.-]", " ", .) %>%
-    strsplit("\\s+") %>%
-    unlist() %>%
-    as.numeric()
-  ## print(extracted_numbers)
-  ## This is an object with apparent dummy data in the 0th and 1st elements
-  ## Corroborated coordinates with Google Data
-  longitude_raw[i] <- extracted_numbers[2]  # Second number is longitude
-  latitude_raw[i] <- extracted_numbers[3]  # Third number is latitude
-}
-name <- stationNames
-latitude <- latitude_raw
-longitude <- longitude_raw
-
-
-# Create a data frame with station coordinates and names
+## Create a custom data frame with station coordinates and names
+## Leaflet is sensitive to large datasets
 station_data <- data.frame(
   Name = stationNames,
   Latitude = latitude,
@@ -84,9 +60,10 @@ station_data <- data.frame(
 )
 
 # Create the leaflet map
-EVchargemap <- leaflet(data = station_data) %>%
-  setView(lng = -95.7129, lat = 37.0902, zoom = 4) %>%  # Center the map around the USA
+EVchargemap <- leaflet(station_data) %>%
+  setView(lng = -77.8124, lat = 40.86833, zoom = 6) %>%  # Center the map around State College, PA
   addTiles() %>%  # Add map tiles as the base layer
-  addMarkers(lat = ~Latitude, lng = ~Longitude, popup = ~Name)  # Add markers using longitude, latitude, and station names as popups
+  addMarkers(lat = ~Latitude, lng = ~Longitude, popup = ~Name)  
+
 # Display the map
 EVchargemap

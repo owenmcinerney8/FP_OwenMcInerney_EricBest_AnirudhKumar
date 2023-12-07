@@ -2,6 +2,19 @@
 |Collaboration Text File|
 |-----------------------|
 
+--------------------------------
+-Powerpoint Presentation Assets-
+--------------------------------
+Presentation Rough Draft:
+https://www.canva.com/design/DAF2UymCGY0/o8zog8xl7m56JDZ4ycXbrQ/edit?utm_content=DAF2UymCGY0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
+EV Manufacturer Logos
+https://logos-world.net/electric-car-brands/
+
+Real-Life, Not a Render of the Mercedes Avatar
+https://driving.ca/mercedes-benz/auto-news/news/the-mercedes-benz-avtr-concept-is-an-avatar-inspired-autonomous-bio-car
+
+
 ------------------------
 -Potential Data Sources-
 ------------------------
@@ -26,8 +39,8 @@ https://data.wa.gov/Transportation/Electric-Vehicle-Population-Data/f6w7-q2d2
 
 (4) Data.gov sources:
 - Includes information on charging stations
+https://catalog.data.gov/dataset/alternative-fueling-station-locations-422f2
 
-https://catalog.data.gov/dataset/electric-vehicle-charging-stations
 
 ----------------------------
 -Data Exploration Questions-
