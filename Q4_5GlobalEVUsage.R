@@ -14,7 +14,7 @@ EV_Global_Historical_raw <- read.csv(csv_path)
 
 
 ### Wrangle Data
-## wrangled data to cases of groups of cars with attributes: year, region, count
+## tidy data to cases of groups of cars with attributes: year, region, count
 EV_production_region_year <- EV_Global_Historical_raw %>%
   filter(unit == 'Vehicles', mode == 'Cars', region != "World") %>%
   select(region, year, value) %>%
@@ -32,7 +32,7 @@ global_ev_ownership_by_year_bar_chart <- ggplot(EV_production_global_year, aes(x
   geom_col() + 
   scale_y_continuous(n.breaks = 8, limits = c(0, max(EV_production_global_year$count))) +
   scale_x_continuous(n.breaks = 11) +
-  labs(title = "Global Electirc Cars Ownership Since 2010",
+  labs(title = "Global Electirc Car Ownership Since 2010",
        x = "Year",
        y = "Cars") +
   theme_classic() +
