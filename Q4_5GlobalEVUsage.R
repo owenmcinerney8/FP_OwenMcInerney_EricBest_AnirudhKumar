@@ -27,7 +27,7 @@ EV_ownership_global_year <- EV_ownership_region_year_raw %>%
   summarise(count = sum(count)) 
 
 
-### CREATE Bar Chart of Global Electric Car Ownership by Year
+### CREATE Bar Chart of Global EV Ownership by Year
 global_ev_ownership_by_year_bar_chart <- ggplot(EV_ownership_global_year, aes(x = year, y = count, fill = 'red')) +
   geom_col() + 
   scale_y_continuous(n.breaks = 8, limits = c(0, max(EV_production_global_year$count))) +
