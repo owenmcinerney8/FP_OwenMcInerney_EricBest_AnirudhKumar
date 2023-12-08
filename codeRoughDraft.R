@@ -24,26 +24,24 @@
 library(groundhog)
 groundhog.day="2023-11-20"
 
-## We need 'here' for using a relative filepath
+## 'here' for using a relative filepath
 ## 'leaflet' will display the map of charging stations
 ## 'dplyr' is brought in for tidying data
-pkgs=c('here', 'leaflet', 'dplyr', 'geosphere')
+pkgs=c('here', 'leaflet', 'dplyr')
 groundhog.library(pkgs, groundhog.day)
 
 ## Using 'here' for a relative filepath
 csv_path <- here("EVfuelstations.csv")
 EVfuelstations <- read.csv(csv_path)
 
-## Data Tidying
 ## This dataset includes a column called "Fuel Type Code" that can stand for electric, CNG, etc
-## We want to only consider the fuel stations that are ELEC
-## Then we only want to look at charging stations in Pennsylvania
+## We want to only consider the fuel stations that are ELEC, in Pennsylvania, and for public use
 filtered_stations <- EVfuelstations %>% filter(Fuel.Type.Code == "ELEC") %>%
-  filter(State == "PA")
+  filter(State == "PA") %>% filter(Groups.With.Access.Code == 'Public')
 
 num_stations = nrow(filtered_stations)
 
-print("Number of EV Charging Stations in PA:")
+print("Number of Public EV Charging Stations in PA:")
 print(num_stations)
 
 ## The station names and coordinates are easily selected
