@@ -32,7 +32,7 @@ global_ev_ownership_by_year_bar_chart <- ggplot(EV_production_global_year, aes(x
   geom_col() + 
   scale_y_continuous(n.breaks = 8, limits = c(0, max(EV_production_global_year$count))) +
   scale_x_continuous(n.breaks = 11) +
-  labs(title = "Global Electirc Cars in Use Since 2010",
+  labs(title = "Global Electirc Cars Ownership Since 2010",
        x = "Year",
        y = "Cars") +
   theme_classic() +
