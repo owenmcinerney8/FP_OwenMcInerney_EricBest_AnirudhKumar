@@ -1,11 +1,12 @@
 |-----------------------|
 |Collaboration Text File|
 |-----------------------|
-
 --------------------------------
 -Powerpoint Presentation Assets-
 --------------------------------
-Presentation Rough Draft:
+----Presentation Rough Draft----
+--------------------------------
+Canva Presentation (PDF's display correctly but not PowerPoints)
 https://www.canva.com/design/DAF2UymCGY0/o8zog8xl7m56JDZ4ycXbrQ/edit?utm_content=DAF2UymCGY0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 EV Manufacturer Logos
@@ -13,7 +14,6 @@ https://logos-world.net/electric-car-brands/
 
 Real-Life, Not a Render of the Mercedes Avatar
 https://driving.ca/mercedes-benz/auto-news/news/the-mercedes-benz-avtr-concept-is-an-avatar-inspired-autonomous-bio-car
-
 
 ------------------------
 -Potential Data Sources-
@@ -50,13 +50,23 @@ https://www.iea.org/data-and-statistics/data-product/global-ev-outlook-2023#glob
 ----------------------------
 -Data Exploration Questions-
 ----------------------------
-1. (Eric) How common are charging stations? Answer: We will use the study in (4) to create a map of charging stations and then analyze the data
+1. (Eric) How common are charging stations in Pennsylvania for public use? Answer: We will use the study in (4) to create a map of charging stations and discuss where they are located in this state.
 
-2. (Eric) What vehicle has the longest excursion time/length on a full-charge? Answer: We will use the study in (3) to analyze this data. Note on electric vehicles:
+RELEVANT R CODE FILE: Q1StationMap.R
+
+2. (Owen) What vehicle has the longest excursion time/length on a full-charge? Answer: We will use the study in (3) to analyze this data. Note on electric vehicles:
 Weather can affect their performance, especially when it's cold.
 
-3. (Eric) Which vehicles are the most cost-efficient when compared with traditional ICE cars? Answer: We must find a dataset which discusses these economic factors.
+RELEVANT R CODE FILE: Q2FuelEconomy.R
+
+3. (VK) How do EV manufacturers compare in excursion range and vehicle price?
+
+RELEVANT R CODE FILE: Q3PriceVsRange.R
 
 4. (Owen) How has global EV usage changed over the years?
 
+RELEVANT R CODE FILE: Q4_5GlobalEVUsage.R
+
 5. (Owen) Which countries lead in EV usage?  Which countries are lagging behind?
+
+RELEVANT R CODE FILE: Q4_5GlobalEVUsage.R

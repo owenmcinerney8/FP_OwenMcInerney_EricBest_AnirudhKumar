@@ -1,23 +1,8 @@
-#Raw R Code for our data exploration questions:
-
-#----------------------------
-#-Data Exploration Questions-
-#----------------------------
-#1. How common are charging stations? 
-#   Answer: We will use the study in (4) to create a map of charging stations and then analyze the data
-
-#2. What vehicle has the longest excursion time/length on a full-charge? 
-#   Answer: We will use the study in (3) to analyze this data. Note on electric vehicles:
-#   Weather can affect their performance, especially when it's cold.
-
-#3. Which vehicles are the most cost-efficient when compared with traditional ICE cars? 
-#   Answer: We must find a dataset which discusses these economic factors.
-
-
 #---------------------
 #-Data Visualizations-
 #---------------------
-##1. How common are charging stations? 
+##Please see Notes_and_Ideas.txt for additional data questions and project documentation
+##Question 1. How common are charging stations? 
 #    
 
 ## Use groundhog to make sure the code runs mostly everywhere
@@ -36,11 +21,12 @@ EVfuelstations <- read.csv(csv_path)
 
 ## This dataset includes a column called "Fuel Type Code" that can stand for electric, CNG, etc
 ## We want to only consider the fuel stations that are ELEC, in Pennsylvania, and for public use
+## Private and government charging facilities off limits to the public are not uncommon
 filtered_stations <- EVfuelstations %>% filter(Fuel.Type.Code == "ELEC") %>%
   filter(State == "PA") %>% filter(Groups.With.Access.Code == 'Public')
 
+## Printing the number of stations in Pennsylvania
 num_stations = nrow(filtered_stations)
-
 print("Number of Public EV Charging Stations in PA:")
 print(num_stations)
 

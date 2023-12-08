@@ -8,6 +8,14 @@ library(dplyr)
 library(ggplot2)
 library(knitr)
 library(kableExtra)
+library(here)
+
+csv_path <- here("EVcars.csv")
+EVcars <- read.csv(csv_path)
+
+# Including 'here' functionality for portable code
+#csv_path <- here("EVcars.csv")
+#EV_range_value_General <- read.csv(csv_path)
 
 csv_path <- here("EVcars.csv")
 EVcars <- read.csv(csv_path)
