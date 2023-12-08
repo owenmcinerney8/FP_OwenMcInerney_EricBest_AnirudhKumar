@@ -50,7 +50,7 @@ EV_ownership_region_2019_2022 <- EV_ownership_region_year_raw %>%
 # use y = reorder(region, +count) to order countries by car ownership
 regional_ev_ownership_bar_chart <- ggplot(EV_ownership_region_2019_2022, aes(x = count, y = reorder(region, +count), fill = 'red')) +
   geom_col() + 
-  scale_x_continuous(limits = c(0, max(EV_ownership_order_by_country$count)), n.breaks = 9) +
+  scale_x_continuous(limits = c(0, max(EV_ownership_order_by_country$count)), n.breaks = 6) +
   labs(title = "EV Ownership By Region",
        subtitle = "Total EVs Owned from 2019 to 2022 for each Region",
        x = "Count of Electric Vehicles",
