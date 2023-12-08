@@ -21,7 +21,7 @@ Use the following checklist to ensure that you have completed all of the tasks.
   - [x] Your main data source may __not__ be one that we used in class nor be found in any R package.
   - [x] Supplementary data sources may come from anywhere.
 - [ ] Read in your data and perform any necessary data wrangling and cleaning.
-- [ ] Conduct Exploratory Data Analysis.
+- [X] Conduct Exploratory Data Analysis.
 - [ ] Prepare a reproducible report
   - [ ] Use a RMD file; output type is your choice.
   - [ ] The report should be well organized with section headings
@@ -32,11 +32,11 @@ Use the following checklist to ensure that you have completed all of the tasks.
   - [ ] Describe what attributes you'll focus your analysis on (mention if they are part of your data sets or if you created them out of your data sets).
   - [ ] Create multiple data visualizations that assist both the team and readers in understanding the data.
     - Data visualizations should show a variety of your skills and geometries.
-    - __Optional__: If your research question/data make sense to do so, try creating a map.
+    -  __Optional__: If your research question/data make sense to do so, try creating a map.
   - [ ] Create at least one visual table (not a display of raw data) that assists both the team and readers in understanding the data.
   - [ ] Have narrative text explaining every data visualization and table as well as setting a framework.
   - [ ] All code should be written according to a Style Guide of your choice. List this Style Guide as a code comment in your first code chunk.
-  - [ ] __Optional:__ For those who want to challenge themselves further, feel free to include a section on using other statistical methods such as hypothesis testing, regression, ANOVA, or machine learning--see Chapter 18 of the Data Computing eBook.
+  - [X] __Optional:__ For those who want to challenge themselves further, feel free to include a section on using other statistical methods such as hypothesis testing, regression, ANOVA, or machine learning--see Chapter 18 of the Data Computing eBook.
 - [ ] Use GitHub to share changes and edits; there should be multiple commits to your repo and at least 2 by each team member. Ensure that your instructor has access to your repo
 - [ ] You'll submit an output file of your choice, the RMD, and a link to your GitHub Repo to the appropriate submission portal in Canvas.
     - __Due Date for Neil's Class: Wednesday, Dec. 13th, 2023 by 11:59pm ET__
