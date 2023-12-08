@@ -48,5 +48,12 @@ EV_usage_region_2019_2022 <- EV_production_region_year %>%
   group_by(region) %>%
   summarise(count = sum(count))
 
-top_5_EV <- head(EV_usage_region_2019_2022[order(EV_usage_region_2019_2022$count, decreasing = TRUE),])
-bottom_5_ev <- tail(EV_usage_region_2019_2022[order(EV_usage_region_2019_2022$count, decreasing = TRUE),])
+EV_ownership_order_by_country <- EV_usage_region_2019_2022[order(EV_usage_region_2019_2022$count, decreasing = TRUE),]
+
+ggplot(EV_ownership_order_by_country, aes(x = region, y = count, fill = 'red')) +
+  geom_col() + 
+  labs(title = "Electric Car Ownership By Country",
+       x = "Country",
+       y = "Cars") +
+  theme_classic() +
+  theme(legend.position = "none")
