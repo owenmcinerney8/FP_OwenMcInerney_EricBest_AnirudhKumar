@@ -74,7 +74,7 @@ green_house_gas_data <- EV_GAS_data %>%
 
 greenhouse_gas_score_summary_table <- green_house_gas_data %>%
   kable() %>%
-  kableExtra::kable_classic()
+  kable_classic()
 
 # View Data Visualizations
 city_mpg_box_plot
