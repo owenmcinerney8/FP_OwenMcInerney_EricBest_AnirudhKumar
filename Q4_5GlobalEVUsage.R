@@ -63,3 +63,25 @@ regional_ev_ownership_bar_chart # to view bar chart
 ### View Charts
 global_ev_ownership_by_year_bar_chart
 regional_ev_ownership_bar_chart
+
+### Q5 Expansion: What percentage of EVs do the top 3 owning EV countries own?
+EV_ownership_region_2019_2022_order_count <- EV_ownership_region_2019_2022[order(EV_ownership_region_2019_2022$count, decreasing = TRUE),]
+
+top_3_count = (sum(EV_ownership_region_2019_2022_order_count[1:3,2])/sum(EV_ownership_region_2019_2022_order_count$count)) * 100
+bottom_count = sum(EV_ownership_region_2019_2022_order_count[4:nrow(EV_ownership_region_2019_2022_order_count),2])/sum(EV_ownership_region_2019_2022_order_count$count) * 100
+
+top_3_count
+bottom_count
+
+top_vs_bottom_df <- data.frame(Top3 = c('Yes', 'No'), percent = c(top_3_count, bottom_count))
+
+top_vs_bottom_percent <- top_vs_bottom_df %>%
+  ggplot(aes(x = Top3, y = percent, fill = Top3)) +
+  geom_col() +
+  geom_text(aes(label = round(percent), y = percent + 2), size = 3) +
+  labs(title = "Percent of World's EVs Owned", subtitle = "Leading 3 Regions Vs The Rest of the World",
+       x = "Top 3", y = "Percentage") +
+  scale_y_continuous(n.breaks = 10, limits = c(0,100)) +
+  theme_bw()
+
+top_vs_bottom_percent
