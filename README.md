@@ -20,17 +20,17 @@ Use the following checklist to ensure that you have completed all of the tasks.
 - [x] Locate appropriate data sources for your project.
   - [x] Your main data source may __not__ be one that we used in class nor be found in any R package.
   - [x] Supplementary data sources may come from anywhere.
-- [ ] Read in your data and perform any necessary data wrangling and cleaning.
+- [x] Read in your data and perform any necessary data wrangling and cleaning.
 - [X] Conduct Exploratory Data Analysis.
 - [ ] Prepare a reproducible report
-  - [ ] Use a RMD file; output type is your choice.
+  - [x] Use a RMD file; output type is your choice.
   - [ ] The report should be well organized with section headings
   - [ ] Code should be collapsed/hidden for HTML, and R Notebooks or in a Code Appendix at the end for a PDF.
   - [ ] All outputs should be accompanied by narrative text to explain what the reader should be seeing.
   - [ ] State your research questions and explain them.
   - [ ] Describe your data sources (where they come from, what was their original purpose, who/what comprise the cases in each).
   - [ ] Describe what attributes you'll focus your analysis on (mention if they are part of your data sets or if you created them out of your data sets).
-  - [ ] Create multiple data visualizations that assist both the team and readers in understanding the data.
+  - [x] Create multiple data visualizations that assist both the team and readers in understanding the data.
     - Data visualizations should show a variety of your skills and geometries.
     -  __Optional__: If your research question/data make sense to do so, try creating a map.
   - [ ] Create at least one visual table (not a display of raw data) that assists both the team and readers in understanding the data.
