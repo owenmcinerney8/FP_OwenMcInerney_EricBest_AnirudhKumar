@@ -46,6 +46,12 @@ https://catalog.data.gov/dataset/alternative-fueling-station-locations-422f2
 - excel file, tidy => need to wrangle data to change cases
 https://www.iea.org/data-and-statistics/data-product/global-ev-outlook-2023#global-ev-data
 
+(6) Fueleconomy.gov Sources:
+- includes mpge (mile per gallon equivalent) for gas and electric vehicles
+- 2024 cars only
+- no missing values
+- xlsx file
+https://www.fueleconomy.gov/feg/download.shtml
 
 ----------------------------
 -Data Exploration Questions-
@@ -70,3 +76,7 @@ RELEVANT R CODE FILE: Q4_5GlobalEVUsage.R
 5. (Owen) Which countries lead in EV usage?  Which countries are lagging behind?
 
 RELEVANT R CODE FILE: Q4_5GlobalEVUsage.R
+
+6. (Owen) How do EV MPG compare to Gas MPG?
+
+RELEVANT R CODE FILE: Q6MPG_EV_vs_GAS.R
