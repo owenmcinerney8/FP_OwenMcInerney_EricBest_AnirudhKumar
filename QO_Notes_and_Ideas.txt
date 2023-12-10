@@ -53,6 +53,13 @@ https://www.iea.org/data-and-statistics/data-product/global-ev-outlook-2023#glob
 - xlsx file
 https://www.fueleconomy.gov/feg/download.shtml
 
+- history of electric cars
+https://www.energy.gov/articles/history-electric-car
+
+(7) Bureau of Labor Statistics:
+ - costs of gas and electricity
+ https://data.bls.gov/pdq/SurveyOutputServlet
+ https://data.bls.gov/pdq/SurveyOutputServlet
 ----------------------------
 -Data Exploration Questions-
 ----------------------------

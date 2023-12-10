@@ -41,7 +41,7 @@ global_ev_ownership_by_year_bar_chart <- ggplot(EV_ownership_global_year, aes(x 
 
 global_ev_ownership_by_year_bar_chart # to view bar chart
 
-### Car bar chart of EV Ownership by Country -----------------------------------
+### Create bar chart of EV Ownership by Country -----------------------------------
 # Wrangle Data to get cases of regions from 2019-2022 with attributes: region, count
 EV_ownership_region_2019_2022 <- EV_ownership_region_year_raw %>%
   filter(year >= 2019) %>%

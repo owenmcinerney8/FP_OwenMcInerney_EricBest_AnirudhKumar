@@ -6,9 +6,16 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
+```{r load_packages, include = FALSE}
+# Style of Choice -- TidyVerse Styling
+library(groundhog)
+groundhog.day <- "2023-11-20"
+pkgs <- c("here", "dplyr", "dbplyr", "ggplot2", "readxl", "tidyverse", "knitr", "kableExtra", "leaflet")
+groundhog.library(pkgs, groundhog.day)
+```
 ## Introduction
 
 ## Research Questions
@@ -27,3 +34,124 @@ knitr::opts_chunk$set(echo = TRUE)
 -
 -
 
+## Data Wrangling
+
+``` {r load_data}
+options(scipen = 999) # Ensures scientific notation is not used
+
+# IEA csv File for Q4 and Q5
+csv_path <- here("IEA_EV_SalesHistoricalCars.csv")
+EV_Global_Historical_raw <- read.csv(csv_path)
+
+# US department of Energy xlsx File for Q6
+EV_GAS_data_raw <- read_excel("all_alpha_24.xlsx")
+```
+
+``` {r wrangle_data}
+### Wrangle Data ---------------------------------------------------------------
+## Q4: wrangle IEA data to cases of years with attributes: year, count of EVs
+EV_supply_global_year <- EV_Global_Historical_raw %>%
+  filter(unit == "Vehicles", region != "World") %>%
+  select(year, value) %>%
+  group_by(year) %>%
+  summarise(count = sum(value))
+
+## Q5: wrangle IEA data to get cases of regions from 2019-2022 with attributes: region, count of EVs
+EV_supply_region_2019_2022 <- EV_Global_Historical_raw %>%
+  filter(unit == "Vehicles", region != "World", year >= 2019) %>%
+  select(region, value) %>%
+  group_by(region) %>%
+  summarise(count = sum(value))
+
+## Q6: US department of energy data: only want to include Model, fuel, veh_class, air pollution score, city mpg, highway mpg,  greenhouse gas score
+
+# Change names of columns with spaces
+colnames(EV_GAS_data_raw)[11] <- "veh_class"
+colnames(EV_GAS_data_raw)[12] <- "air_pollution_score"
+colnames(EV_GAS_data_raw)[13] <- "city_mpge"
+colnames(EV_GAS_data_raw)[14] <- "highway_mpge"
+colnames(EV_GAS_data_raw)[15] <- "cmb_mpge"
+colnames(EV_GAS_data_raw)[16] <- "greenhouse_gas_score"
+
+# Cases are cars with attributes: Model, fuel, vehicle class, air pollution score, city mpg, highway mpg, greenhouse gas score
+EV_GAS_data <- EV_GAS_data_raw %>%
+  drop_na(city_mpge) %>%
+  filter(Fuel == "Gasoline" | Fuel == "Electricity") %>%
+  select(Model, Fuel, veh_class, air_pollution_score, city_mpge, highway_mpge, cmb_mpge, greenhouse_gas_score) %>%
+  mutate(
+    city_mpge = as.numeric(city_mpge),
+    highway_mpge = as.numeric(highway_mpge),
+    cmb_mpge = as.numeric(cmb_mpge),
+    greenhouse_gas_score = as.numeric(greenhouse_gas_score)
+  )
+```
+
+## Question 4: How has the global supply of electric vehicles changed over the years?
+
+Around 1900, steam vehicles, gas vehicles, and electric vehicles were all competitive with each other.  Gas vehicles were more difficult to drive, while electric vehicles were easier to drive.  With electricity becoming more popular in homes, electric vehicles became a viable option for short trips.  However, when Henry Ford came out with the Model T, which cost only $650 per car, electric cars could not compete at $1750 per car.  The world became accustomed to gas-powered vehicles, and gas still is the most common fuel source for vehicles.  As science developed, electric cars have became cheaper and more efficient. In addition climate change, partially induced by gas-powered vehicles, has been a reason to make the switch to electric vehicles.  Another reason for the switch to electric vehicles, in sudden gas shortages caused by war and dependence on other countries. 
+
+Our group wanted to investigate how global EV supply has changed over the year.  Using the 2023 Global EV Outlook data set from the International Energy Agency, we were able to examine the change in the supply of electric vehicles over the years.  From the bar chart below, we can see that the quantity of electric vehicles' supplied has increased exponentially each year since 2010.  We can predict from this that there will be another significant increase in electric vehicles supplied for 2023.
+```{r q4_bar_plot}
+### Create Bar Chart of Global EV Ownership by Year -----------------------------
+global_ev_supply_by_year_bar_chart <- ggplot(EV_supply_global_year, aes(x = year, y = count, fill = "red")) +
+  geom_col() +
+  scale_y_continuous(n.breaks = 8, limits = c(0, max(EV_supply_global_year$count))) +
+  scale_x_continuous(n.breaks = 11) +
+  labs(
+    title = "Global Electric Vehicle Supply since 2010",
+    x = "Year",
+    y = "Quantity of Electric Vehicles Supplied"
+  ) +
+  theme_classic() +
+  theme(legend.position = "none") # removes legend
+
+global_ev_supply_by_year_bar_chart # to view bar chart
+```
+
+## Question 5: Which countries lead in EV usage?  Which countries are lagging behind?
+
+Similar to the race to the moon, different regions are trying to adapt quickly to the need for electric vehicles.  Our group wanted to investigate which countries lead in the race to the adaption to electric vehicles.  We also wanted to see which regions implemented electric vehicles the least. 
+
+From the bar chart below, we can see that China have the greatest quantity of electric vehicles supplied.  This might be due to the fact that they are the most populated region in the world.  It also may be due to their lack of child labor laws, which would allow them to increase production at a smaller cost.  We can also see that Turkey, South Africa, and Chile have implemented electric cars the least.  This is likely due to their economies not being as strong as China's or the United States.
+
+```{r q5_bar_plot}
+## Create bar chart of EV Ownership by Country ---------------------------------
+# use y = reorder(region, +count) to order countries by car ownership
+regional_ev_supply_bar_chart <- ggplot(EV_supply_region_2019_2022, aes(x = count, y = reorder(region, +count), fill = "red")) +
+  geom_col() +
+  scale_x_continuous(limits = c(0, max(EV_supply_region_2019_2022$count)), n.breaks = 6) +
+  labs(
+    title = "Electric Vehicle Supply By Region",
+    subtitle = "Total Electric Vehicles Supplied from 2019 to 2022 for each Region",
+    x = "Quantity Supplied of Electric Vehicles",
+    y = "Region"
+  ) +
+  theme_classic() +
+  theme(legend.position = "none") # removes legend
+
+regional_ev_supply_bar_chart # to view bar chart
+```
+
+## Question 6: How do Electric Vehicles and Gas Vehicles compare in MPGe?
+
+Our group wanted to investigate whether gas-powered vehicles or electric vehicles were more efficient.  We decided to make a box plot of the miles per gallon (mpge) equivalent (where 33.7 kWh = 1 gallon) for gas-powered vehicles and electric vehicles.
+
+In the box plot below, we can see that electric vehicles tend to have more mpge than 
+
+```{r q6_box_plot}
+### Make Box Plots -------------------------------------------------------------
+## Combined MPGe Box Plot
+combined_mpge_box_plot <- EV_GAS_data %>%
+  group_by(Fuel) %>%
+  ggplot(aes(x = Fuel, y = cmb_mpge, group = Fuel, fill = Fuel)) +
+  labs(title = "City and Highway MPGe EV vs Gas Box Plot", subtitle = "MPGe is Miles per Gallon equivalent", x = "Fuel", y = "MPGe") +
+  scale_y_continuous(n.breaks = 10, limits = c(0, max(EV_GAS_data$cmb_mpge))) +
+  geom_boxplot(
+    outlier.colour = "black", outlier.shape = 16,
+    outlier.size = 2, notch = FALSE
+  ) +
+  theme_minimal()
+
+### View Data Visualizations ---------------------------------------------------
+combined_mpge_box_plot
+```
