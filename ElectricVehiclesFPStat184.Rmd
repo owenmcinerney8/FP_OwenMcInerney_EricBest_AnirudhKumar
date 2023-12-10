@@ -1,0 +1,29 @@
+---
+title: "Electric Vehicles Final Project Stat184"
+author: "Owen McInerney, Eric Best, Anirudh Kumar"
+date: "2023-11-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+## Research Questions
+
+(1) How common are charging stations in Pennsylvania for public use? 
+(2) What vehicle has the longest excursion time/length on a full-charge?
+(3) How do EV manufacturers compare in excursion range and vehicle price?
+(4) How has global EV usage changed over the years?
+(5) Which countries lead in EV usage?  Which countries are lagging behind?
+(6) How do Electric Vehicles and Gas Vehicles compare in MPGe?
+
+## Data Sources
+
+-
+-
+-
+-
+
