@@ -270,6 +270,7 @@ Miles_per_dollar_line_graph <- fuel_df %>%
 ## View Miles per Dollar Line Graph
 Miles_per_dollar_line_graph
 ```
+
 ## Code Appendix
 ```{r ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
 ```
