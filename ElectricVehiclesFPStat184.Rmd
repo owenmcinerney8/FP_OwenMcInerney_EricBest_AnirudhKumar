@@ -45,6 +45,10 @@ EV_Global_Historical_raw <- read.csv(csv_path)
 
 # US department of Energy xlsx File for Q6
 EV_GAS_data_raw <- read_excel("all_alpha_24.xlsx")
+
+# BLS Data on Fuel Prices xlsx File for Q7
+gas_prices <- read_excel("bls_gas_prices.xlsx", range = "B11:M11", col_names = FALSE)
+electricty_prices <- read_excel("bls_electricity_prices.xlsx", range = "B11:M11", col_names = FALSE)
 ```
 
 ``` {r wrangle_data}
@@ -84,6 +88,64 @@ EV_GAS_data <- EV_GAS_data_raw %>%
     cmb_mpge = as.numeric(cmb_mpge),
     greenhouse_gas_score = as.numeric(greenhouse_gas_score)
   )
+
+## Q7: BLS Data + US department of energy data: case = a month with attribute: month, miles per gallon equivalent for fuel and electricity
+electricty_prices[1:12] = electricty_prices[1:12] * 33.7 # converts from kWh to kWh equivalent of a gallon
+fuel_df = full_join(gas_prices, electricty_prices)
+
+# Currently have each month as a given column: need to label columns
+colnames(fuel_df)[1] <- "jan"
+colnames(fuel_df)[2] <- "feb"
+colnames(fuel_df)[3] <- "mar"
+colnames(fuel_df)[4] <- "apr"
+colnames(fuel_df)[5] <- "may"
+colnames(fuel_df)[6] <- "jun"
+colnames(fuel_df)[7] <- "jul"
+colnames(fuel_df)[8] <- "aug"
+colnames(fuel_df)[9] <- "sep"
+colnames(fuel_df)[10] <- "oct"
+colnames(fuel_df)[11] <- "nov"
+colnames(fuel_df)[12] <- "dec"
+
+# To find average mpge for gas and electric
+mpge_avg_fuel <- EV_GAS_data %>%
+  group_by(Fuel) %>%
+  summarise(mpge_avg = mean(cmb_mpge))
+
+electricity_price_per_mile <- mpge_avg_fuel %>%
+  filter(Fuel == "Electricity") %>%
+  select(mpge_avg)
+
+gas_price_per_mile <- mpge_avg_fuel %>%
+  filter(Fuel == "Gasoline") %>%
+  select(mpge_avg)
+
+# Make sure they are numeric
+electricity_avg_mpge <- as.numeric(electricity_price_per_mile)
+gas_avg_mpge <- as.numeric(gas_price_per_mile)
+
+# Add fuel type column to data frame
+fuel_df$type = c("gas", "electricity") 
+
+# Need to change cases to months 
+fuel_df <- fuel_df %>%
+  pivot_longer(cols = c(jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec), 
+               names_to = "month", 
+               values_to = "avg_gallon_equaivalent_price")
+
+# Making actual dates instead of character dates
+dates <- append(seq(from = as.Date("2022-01-01"), to = as.Date("2022-12-01"), by = 'month'), 
+                seq(from = as.Date("2022-01-01"), to = as.Date("2022-12-01"), by = 'month'))
+
+# Add dates column to fuel_df
+fuel_df$date = dates
+
+# do not need month column anymore, want to mutate from avg price per gallon to miles per dollar
+fuel_df <- fuel_df %>%
+  select(type, avg_gallon_equaivalent_price, date) %>%
+  mutate(miles_per_dollar = case_when(type == 'gas' ~ gas_avg_mpge / avg_gallon_equaivalent_price,
+         type == 'electricity' ~ electricity_avg_mpge / avg_gallon_equaivalent_price)) %>%
+  select(date, type, miles_per_dollar)
 ```
 
 ## Question 4: How has the global supply of electric vehicles changed over the years?
@@ -105,7 +167,8 @@ global_ev_supply_by_year_bar_chart <- ggplot(EV_supply_global_year, aes(x = year
   theme_classic() +
   theme(legend.position = "none") # removes legend
 
-global_ev_supply_by_year_bar_chart # to view bar chart
+## View Global EV supply by year Bar Chart
+global_ev_supply_by_year_bar_chart
 ```
 
 ## Question 5: Which countries lead in EV usage?  Which countries are lagging behind?
@@ -129,14 +192,15 @@ regional_ev_supply_bar_chart <- ggplot(EV_supply_region_2019_2022, aes(x = count
   theme_classic() +
   theme(legend.position = "none") # removes legend
 
-regional_ev_supply_bar_chart # to view bar chart
+## View Regional EV Supply Bar Chart
+regional_ev_supply_bar_chart
 ```
 
 ## Question 6: How do Electric Vehicles and Gas Vehicles compare in MPGe?
 
 Our group wanted to investigate whether gas-powered vehicles or electric vehicles were more efficient.  We decided to make a box plot of the miles per gallon (mpge) equivalent (where 33.7 kWh = 1 gallon) for gas-powered vehicles and electric vehicles.
 
-In the box plot below, we can see that electric vehicles tend to have more mpge than 
+In the box plot below, we can see that electric vehicles tend to have a higher mpge than gas-powered vehicles.  This may be due to investment in electric vehicles which has allowed for quick advancement in the range of electric vehicles.  Also, electric vehicles directly convert a kilowatt hour to motion while gas-powered vehicle convert gas into heat which then creates motion.
 
 ```{r q6_box_plot}
 ### Make Box Plots -------------------------------------------------------------
@@ -152,6 +216,29 @@ combined_mpge_box_plot <- EV_GAS_data %>%
   ) +
   theme_minimal()
 
-### View Data Visualizations ---------------------------------------------------
+## View Combined MPGe Box Plot
 combined_mpge_box_plot
+```
+
+## Question 7: How do costs differ between electric vehicles and gas vehicles?
+
+After seeing that electric vehicles tend to have a greater miles per gallon equivalent than gas-powered vehicles, we wanted to see which was more cost effective.  We decided to take date from the Bureau of Labor Statistics for energy costs each month during 2022 (because 2023 has not finished yet).  We also took the average mpge from the 2024 vehicles tested by the US department of energy.  We then divided the mpge by the energy costs for each month and fuel type.  
+
+We can see from the line graph below that an electric vehicle will go further distance per dollar of energy than a gas-powered vehicle.  This is due to electric vehicles having nearly four times the average mpge than a gas-powered vehicle.  Future evaluations should include costs to purchase the vehicles and costs of maintaining the vehicles.
+```{r q7_line_graph}
+### Make Line Graph ------------------------------------------------------------
+Miles_per_dollar_line_graph <- fuel_df %>%
+  ggplot(aes(x = date, y = miles_per_dollar, color = type)) +
+  geom_line() +
+  scale_y_continuous(n.breaks = 10, limits = c(0, 20)) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  labs(
+    title = "Miles per Dollar by Month: Electricity Vs Gas",
+    subtitle = "Using 2024 vehicles and 2022 monthly fuel prices",
+    x = "Month", y = "Miles per Dollar", color = "Fuel Type"
+  ) +
+  theme_bw()
+
+## View Miles per Dollar Line Graph
+Miles_per_dollar_line_graph
 ```

@@ -94,8 +94,8 @@ fuel_plot <- fuel_df_final %>%
   ggplot(aes(x = date, y = miles_per_dollar, color = fuel_type)) +
   geom_line() +
   scale_y_continuous(n.breaks = 10, limits = c(0, 20)) +
-  scale_x_continuous(n.breaks = 12) +
-  labs(title = "Miles per Dollar for Electricity Vs Gas", x = "Month", y = "Miles per Dollar", color = "Fuel Type") +
+  scale_x_date(date_breaks = '1 month', date_labels = '%b') +
+  labs(title = "Miles per Dollar by Month: Electricity Vs Gas", subtitle = "Using 2024 vehicles and 2022 monthly fuel prices", x = "Month", y = "Miles per Dollar", color = "Fuel Type") +
   theme_bw()
 
 fuel_plot
