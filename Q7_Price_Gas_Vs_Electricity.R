@@ -82,21 +82,20 @@ fuel_df$date = dates
 fuel_df_final <- fuel_df %>%
   reframe(date = date, miles_per_dollar_gas = gas_avg_mpge/gas, miles_per_dollar_electricity = electricity_avg_mpge/electricity)
 
-gas_avg_mpge
-electricity_avg_mpge
+fuel_df_final <- fuel_df_final %>%
+  pivot_longer(cols = c(miles_per_dollar_electricity, miles_per_dollar_gas), names_to = 'fuel_type', names_prefix = 'miles_per_dollar_', values_to = 'miles_per_dollar') 
 
-fuel_df
-fuel_df_final
+typeof(fuel_df_final$date)
 
+View(fuel_df_final)
 
 ### Plot data
 fuel_plot <- fuel_df_final %>% 
-  ggplot(aes(x = dates)) +
-  geom_line(aes(y = miles_per_dollar_electricity, color = 'green', size = 1.5)) + 
-  geom_line(aes(y = miles_per_dollar_gas, color = 'blue', size = 1.5)) +
+  ggplot(aes(x = date, y = miles_per_dollar, color = fuel_type)) +
+  geom_line() +
   scale_y_continuous(n.breaks = 10, limits = c(0, 20)) +
   scale_x_continuous(n.breaks = 12) +
-  labs(title = "Miles per Dollar for Electricity Vs Gas", x = "Month", y = "Miles per Dollar") +
+  labs(title = "Miles per Dollar for Electricity Vs Gas", x = "Month", y = "Miles per Dollar", color = "Fuel Type") +
   theme_bw()
 
 fuel_plot
