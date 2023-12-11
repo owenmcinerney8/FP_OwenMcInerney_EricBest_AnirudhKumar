@@ -26,17 +26,31 @@ groundhog.library(pkgs, groundhog.day)
 (4) How has global EV usage changed over the years?
 (5) Which countries lead in EV usage?  Which countries are lagging behind?
 (6) How do Electric Vehicles and Gas Vehicles compare in MPGe?
+(7) How do costs differ between electric vehicles and gas vehicles?
 
 ## Data Sources
 
--
--
--
--
+(1)
+(2)
+(3)
+(4)
+(5) International Energy Agency
+    - Global EV 2023 Outlook CSV
+      - cases: a given setting
+      - attributes: year, month, region EV sales, EV Stock, EV type
+(6) US Department of Energy
+    -  2024 vehicles to assess energy efficiency of different vehicles excel file
+      - cases: vehicle
+      - attributes: model, fuel type, city mpge (miles per gallon equivalent), highway mpge equivalent, greenhouse gas score, CO2 emissions, vehicle size
+(7) Bureau of Labor Statistics
+    - 2022 Electricity prices by month per kWh excel file
+      - case: energy type
+      - attributes: energy type, January average price, February average price, etc.
+    - 2022 Unleaded Regular Gas Price per gallon
+      - case: energy type
+      - attributes: energy type, January average price, February average price, etc.
 
-## Data Wrangling
-
-``` {r load_data}
+``` {r load_data, include = FALSE}
 options(scipen = 999) # Ensures scientific notation is not used
 
 # IEA csv File for Q4 and Q5
@@ -50,7 +64,15 @@ EV_GAS_data_raw <- read_excel("all_alpha_24.xlsx")
 gas_prices <- read_excel("bls_gas_prices.xlsx", range = "B11:M11", col_names = FALSE)
 electricty_prices <- read_excel("bls_electricity_prices.xlsx", range = "B11:M11", col_names = FALSE)
 ```
+## Data Wrangling
 
+(4) For Question 4, we wanted to change the IEA dataset from a case of a given setting to a given year.  The attributes we wanted were the year and the count of electric vehicles supplied in that year.
+
+(5) For Question 5, we wanted to change the IEA dataset from a case of a given setting to a given region.  The attributes we wanted was the region and the count of electric vehicles supplied in that region between 2019 and 2022.
+
+(6) For Question 6, we wanted to change to preserve the case of a car, but only take attributes: model, fuel type, vehicle size, air pollution score, city mpge, highway mpge, combined mpge, and greenhouse gas score.  
+
+(7) For Question 7, we wanted to join the tables the Bureau of Labor Statistics for electric and gas costs and change the case from an energy type to a month with the attributes: month, fuel type, and miles per dollar.
 ``` {r wrangle_data}
 ### Wrangle Data ---------------------------------------------------------------
 ## Q4: wrangle IEA data to cases of years with attributes: year, count of EVs
@@ -90,8 +112,8 @@ EV_GAS_data <- EV_GAS_data_raw %>%
   )
 
 ## Q7: BLS Data + US department of energy data: case = a month with attribute: month, miles per gallon equivalent for fuel and electricity
-electricty_prices[1:12] = electricty_prices[1:12] * 33.7 # converts from kWh to kWh equivalent of a gallon
-fuel_df = full_join(gas_prices, electricty_prices)
+electricty_prices[1:12] <- electricty_prices[1:12] * 33.7 # converts from kWh to kWh equivalent of a gallon
+fuel_df <- full_join(gas_prices, electricty_prices)
 
 # Currently have each month as a given column: need to label columns
 colnames(fuel_df)[1] <- "jan"
@@ -125,26 +147,32 @@ electricity_avg_mpge <- as.numeric(electricity_price_per_mile)
 gas_avg_mpge <- as.numeric(gas_price_per_mile)
 
 # Add fuel type column to data frame
-fuel_df$type = c("gas", "electricity") 
+fuel_df$type <- c("gas", "electricity")
 
-# Need to change cases to months 
+# Need to change cases to months
 fuel_df <- fuel_df %>%
-  pivot_longer(cols = c(jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec), 
-               names_to = "month", 
-               values_to = "avg_gallon_equaivalent_price")
+  pivot_longer(
+    cols = c(jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec),
+    names_to = "month",
+    values_to = "avg_gallon_equaivalent_price"
+  )
 
 # Making actual dates instead of character dates
-dates <- append(seq(from = as.Date("2022-01-01"), to = as.Date("2022-12-01"), by = 'month'), 
-                seq(from = as.Date("2022-01-01"), to = as.Date("2022-12-01"), by = 'month'))
+dates <- append(
+  seq(from = as.Date("2022-01-01"), to = as.Date("2022-12-01"), by = "month"),
+  seq(from = as.Date("2022-01-01"), to = as.Date("2022-12-01"), by = "month")
+)
 
 # Add dates column to fuel_df
-fuel_df$date = dates
+fuel_df$date <- dates
 
 # do not need month column anymore, want to mutate from avg price per gallon to miles per dollar
 fuel_df <- fuel_df %>%
   select(type, avg_gallon_equaivalent_price, date) %>%
-  mutate(miles_per_dollar = case_when(type == 'gas' ~ gas_avg_mpge / avg_gallon_equaivalent_price,
-         type == 'electricity' ~ electricity_avg_mpge / avg_gallon_equaivalent_price)) %>%
+  mutate(miles_per_dollar = case_when(
+    type == "gas" ~ gas_avg_mpge / avg_gallon_equaivalent_price,
+    type == "electricity" ~ electricity_avg_mpge / avg_gallon_equaivalent_price
+  )) %>%
   select(date, type, miles_per_dollar)
 ```
 
@@ -198,7 +226,7 @@ regional_ev_supply_bar_chart
 
 ## Question 6: How do Electric Vehicles and Gas Vehicles compare in MPGe?
 
-Our group wanted to investigate whether gas-powered vehicles or electric vehicles were more efficient.  We decided to make a box plot of the miles per gallon (mpge) equivalent (where 33.7 kWh = 1 gallon) for gas-powered vehicles and electric vehicles.
+Our group wanted to investigate whether gas-powered vehicles or electric vehicles were more efficient.  We decided to make a box plot of the miles per gallon equivalent (mpge) (where 33.7 kWh = 1 gallon) for gas-powered vehicles and electric vehicles.
 
 In the box plot below, we can see that electric vehicles tend to have a higher mpge than gas-powered vehicles.  This may be due to investment in electric vehicles which has allowed for quick advancement in the range of electric vehicles.  Also, electric vehicles directly convert a kilowatt hour to motion while gas-powered vehicle convert gas into heat which then creates motion.
 
@@ -241,4 +269,7 @@ Miles_per_dollar_line_graph <- fuel_df %>%
 
 ## View Miles per Dollar Line Graph
 Miles_per_dollar_line_graph
+```
+## Code Appendix
+```{r ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
 ```

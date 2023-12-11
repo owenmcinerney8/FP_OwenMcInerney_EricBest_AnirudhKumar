@@ -75,7 +75,7 @@ fuel_df <- fuel_df %>%
                values_to = "avg_gallon_equaivalent_price") %>%
   pivot_wider(id_cols = month, names_from = type, values_from = avg_gallon_equaivalent_price)
 
-dates = seq(from = as.Date("2022-01-01"), to = as.Date("2022-12-01"), by = 'month')
+dates <- append(seq(from = as.Date("2022-01-01"), to = as.Date("2022-12-01"), by = 'month'), seq(from = as.Date("2022-01-01"), to = as.Date("2022-12-01"), by = 'month'))
 
 fuel_df$date = dates
 
