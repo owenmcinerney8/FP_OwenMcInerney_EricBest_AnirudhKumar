@@ -48,22 +48,6 @@ colnames(fuel_df)[10] <- "oct"
 colnames(fuel_df)[11] <- "nov"
 colnames(fuel_df)[12] <- "dec"
 
-fuel_df$type = c("gas", "electricity")
-
-fuel_df <- fuel_df %>%
-  pivot_longer(cols = c(jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec), 
-               names_to = "month", 
-               values_to = "avg_gallon_equaivalent_price") %>%
-  pivot_wider(id_cols = month, names_from = type, values_from = avg_gallon_equaivalent_price)
-
-dates = seq(from = as.Date("2022-01-01"), to = as.Date("2022-12-01"), by = 'month')
-
-fuel_df$date = dates
-
-fuel_df_final <- fuel_df %>%
-  reframe(date = date, cost_per_mile_gas = gas_price_per_mile/gas, cost_per_mile_electricity = electricity_price_per_mile/electricity)
-
-fuel_df_final
 ## To find average mpge 
 mpge_avg_fuel <- EV_GAS_data %>%
   group_by(Fuel) %>%
@@ -77,22 +61,43 @@ gas_price_per_mile <- mpge_avg_fuel %>%
   filter(Fuel == "Gasoline") %>%
   select(mpge_avg)
 
-electricity_price_per_mile <- as.numeric(electricity_price_per_mile)
-gas_price_per_mile <- as.numeric(gas_price_per_mile)
+electricity_avg_mpge <- as.numeric(electricity_price_per_mile)
+gas_avg_mpge <- as.numeric(gas_price_per_mile)
 mpge_avg_fuel
 
 electricity_price_per_mile
 
+fuel_df$type = c("gas", "electricity")
+
+fuel_df <- fuel_df %>%
+  pivot_longer(cols = c(jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec), 
+               names_to = "month", 
+               values_to = "avg_gallon_equaivalent_price") %>%
+  pivot_wider(id_cols = month, names_from = type, values_from = avg_gallon_equaivalent_price)
+
+dates = seq(from = as.Date("2022-01-01"), to = as.Date("2022-12-01"), by = 'month')
+
+fuel_df$date = dates
+
+fuel_df_final <- fuel_df %>%
+  reframe(date = date, miles_per_dollar_gas = gas_avg_mpge/gas, miles_per_dollar_electricity = electricity_avg_mpge/electricity)
+
+gas_avg_mpge
+electricity_avg_mpge
+
+fuel_df
+fuel_df_final
+
+
 ### Plot data
 fuel_plot <- fuel_df_final %>% 
   ggplot(aes(x = dates)) +
-  geom_line(aes(y = cost_per_mile_electricity, color = 'red', size = 1.5)) + 
-  geom_line(aes(y = cost_per_mile_gas, color = 'blue', size = 1.5)) +
+  geom_line(aes(y = miles_per_dollar_electricity, color = 'green', size = 1.5)) + 
+  geom_line(aes(y = miles_per_dollar_gas, color = 'blue', size = 1.5)) +
   scale_y_continuous(n.breaks = 10, limits = c(0, 20)) +
   scale_x_continuous(n.breaks = 12) +
-  labs(title = "Price per mile for Electricity Vs Gas", x = "Month", y = "Dollars") +
-  theme_bw() +
-  theme(legend.position = "none")
+  labs(title = "Miles per Dollar for Electricity Vs Gas", x = "Month", y = "Miles per Dollar") +
+  theme_bw()
 
 fuel_plot
 
