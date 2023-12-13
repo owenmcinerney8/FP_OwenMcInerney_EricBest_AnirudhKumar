@@ -3,6 +3,9 @@ title: "Electric Vehicles Final Project Stat184"
 author: "Owen McInerney, Eric Best, Anirudh Kumar"
 date: "2023-11-20"
 output: html_document
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r setup, include=FALSE}
@@ -16,15 +19,20 @@ groundhog.day <- "2023-11-20"
 pkgs <- c("here", "dplyr", "dbplyr", "ggplot2", "readxl", "tidyverse", "knitr", "kableExtra", "leaflet")
 groundhog.library(pkgs, groundhog.day)
 ```
+
 ## Introduction
+
+Electric vehicles, once a rarity, are now a common sight on America's roads and all over the world. Here in State College, Teslas, Rivians, and other electric vehicles from traditional car manufacturers are fairly common. Our group wanted to investigate the viability of owning an electric vehicle. We wanted to examine some questions regarding these cars. If we went on a road trip, where could we find charging stations? How far could we go on a full-charge? How do these vehicles compare when considering the pricetag and the excursion range? And, with regards to general global trends with EV's, how has their adoption changed over time? Which countries are embracing electric vehicles? We will also compare statistics between EV's and gas-powered vehicles.
 
 ## Research Questions
 
-(1) How common are charging stations in Pennsylvania for public use? 
+(1) How common are charging stations in Pennsylvania for public use?
 (2) What vehicle has the longest excursion time/length on a full-charge?
-(3) How do EV manufacturers compare in excursion range and vehicle price?
+(3) How do EV manufacturers compare in excursion range and vehicle
+    price?
 (4) How has global EV usage changed over the years?
-(5) Which countries lead in EV usage?  Which countries are lagging behind?
+(5) Which countries lead in EV usage? Which countries are lagging
+    behind?
 (6) How do Electric Vehicles and Gas Vehicles compare in MPGe?
 (7) How do costs differ between electric vehicles and gas vehicles?
 
@@ -33,43 +41,47 @@ groundhog.library(pkgs, groundhog.day)
 # Exploratory Datasets
 
 (1) Jeff Swanson's EV Dataset
-    - Used to get a general idea of EV cars and their characteristics
-    - Does not appear in data visualizations
-    
+    -   Used to get a general idea of EV cars and their characteristics
+    -   Does not appear in data visualizations
 (2) New York State EV Rebate Program Dataset
-    - Used to investigate rebate programs, which impacts economic viability
-    - Does not appear in data visualizations
-    
+    -   Used to investigate rebate programs, which impacts economic
+        viability
+    -   Does not appear in data visualizations
 (3) Washington State EV Database:
-    - Exploratory dataset used to learn about MSRP, excursion time using a full charge, etc
-    - Most current data thus far
+    -   Exploratory dataset used to learn about MSRP, excursion time
+        using a full charge, etc
+    -   Most current data thus far
 
-# Datasets used for Visualizations   
+# Datasets used for Visualizations
 
 (4) Alternative Fueling Stations Dataset
-    - Includes information on charging stations throughout the USA and Canada
-    - Cases: A charging station
-    - Attributes: Fuel.Type.Code, State, Groups.With.Access.Code, Latitude, Longitude
-    
+    -   Includes information on charging stations throughout the USA and
+        Canada
+    -   Cases: A charging station
+    -   Attributes: Fuel.Type.Code, State, Groups.With.Access.Code,
+        Latitude, Longitude
 (5) International Energy Agency
-    - Global EV 2023 Outlook CSV
-      - Cases: a given setting
-      - Attributes: year, month, region EV sales, EV Stock, EV type
-      
+    -   Global EV 2023 Outlook CSV
+        -   Cases: a given setting
+        -   Attributes: year, month, region EV sales, EV Stock, EV type
 (6) US Department of Energy
-    -  2024 vehicles to assess energy efficiency of different vehicles excel file
-      - Cases: vehicle
-      - Attributes: model, fuel type, city mpge (miles per gallon equivalent), highway mpge equivalent, greenhouse gas score, CO2 emissions,               vehicle size
-      
+    -   2024 vehicles to assess energy efficiency of different vehicles
+        excel file
+    -   Cases: vehicle
+    -   Attributes: model, fuel type, city mpge (miles per gallon
+        equivalent), highway mpge equivalent, greenhouse gas score, CO2
+        emissions, vehicle size
 (7) Bureau of Labor Statistics
-    - 2022 Electricity prices by month per kWh excel file
-      - Cases: energy type
-      - Attributes: energy type, January average price, February average price, etc.
-    - 2022 Unleaded Regular Gas Price per gallon
-      - Cases: energy type
-      - Attributes: energy type, January average price, February average price, etc.
+    -   2022 Electricity prices by month per kWh excel file
+        -   Cases: energy type
+        -   Attributes: energy type, January average price, February
+            average price, etc.
+    -   2022 Unleaded Regular Gas Price per gallon
+        -   Cases: energy type
+        -   Attributes: energy type, January average price, February
+            average price, etc.
 
-``` {r load_data, include = FALSE}
+```{r load_data, include = FALSE}
 # Ensures scientific notation is not used
 options(scipen = 999) 
 
@@ -97,27 +109,40 @@ electricty_prices <- read_excel("bls_electricity_prices.xlsx", range = "B11:M11"
 ```
 
 ## Data Wrangling
-(1) For Question 1, the data.gov dataset is already tidied. We want only the attributes Fuel.Type.Code, State, Groups.With.Access.Code, Latitude, Longitude.
 
-(2) For Question 2, we tidied the dataset to include only the attributes as follows: 
-    Automobile.ID, Fuel, Manufacturer.ID, Manufacturer, Model, 
-    Model.Year,Category.ID, Engine.Type, Engine.Size, Transmission.Type, 
-    Category, Engine.Size, City.Fuel.Economy.Units, City.Fuel.Economy, 
-    Highway.Fuel.Economy.Units, Highway.Fuel.Economy.
+(1) For Question 1, the data.gov dataset is already tidied. We want only
+    the attributes Fuel.Type.Code, State, Groups.With.Access.Code,
+    Latitude, Longitude.
 
-(3) For Question 3, we already had tidied data for EV's. The desired attributes are Price and Range.
+(2) For Question 2, we tidied the dataset to include only the attributes
+    as follows: Automobile.ID, Fuel, Manufacturer.ID, Manufacturer,
+    Model, Model.Year,Category.ID, Engine.Type, Engine.Size,
+    Transmission.Type, Category, Engine.Size, City.Fuel.Economy.Units,
+    City.Fuel.Economy, Highway.Fuel.Economy.Units, Highway.Fuel.Economy.
 
-(4) For Question 4, we wanted to change the IEA dataset from a case of a given setting to a given year.  The attributes we wanted were the year and     the count of electric vehicles supplied in that year.
+(3) For Question 3, we already had tidied data for EV's. The desired
+    attributes are Price and Range.
 
-(5) For Question 5, we wanted to change the IEA dataset from a case of a given setting to a given region.  The attributes we wanted was the region     and the count of electric vehicles supplied in that region between 2019 and 2022.
+(4) For Question 4, we wanted to change the IEA dataset from a case of a
+    given setting to a given year. The attributes we wanted were the
+    year and the count of electric vehicles supplied in that year.
 
-(6) For Question 6, we wanted to change to preserve the case of a car, but only take attributes: 
-    model, fuel type, vehicle size, air pollution score, city mpge, 
-    highway mpge, combined mpge, and greenhouse gas score.  
+(5) For Question 5, we wanted to change the IEA dataset from a case of a
+    given setting to a given region. The attributes we wanted was the
+    region and the count of electric vehicles supplied in that region
+    between 2019 and 2022.
 
-(7) For Question 7, we wanted to join the tables the Bureau of Labor Statistics for electric and gas costs and change the case from an energy type     to a month with the attributes: month, fuel type, and miles per dollar.
+(6) For Question 6, we wanted to change to preserve the case of a car,
+    but only take attributes: model, fuel type, vehicle size, air
+    pollution score, city mpge, highway mpge, combined mpge, and
+    greenhouse gas score.
 
-``` {r wrangle_data, include = FALSE}
+(7) For Question 7, we wanted to join the tables the Bureau of Labor
+    Statistics for electric and gas costs and change the case from an
+    energy type to a month with the attributes: month, fuel type, and
+    miles per dollar.
+
+```{r wrangle_data, include = FALSE}
 # Wrangle Data ---------------------------------------------------------------
 
 # Q1: How common are charging stations in Pennsylvania for public use?
@@ -266,9 +291,22 @@ fuel_df <- fuel_df %>%
 
 ## Question 1: How common are charging stations in Pennsylvania for public use?
 
-Our group wanted to examine charging stations in Pennsylvania. If we know where stations are, we can get a general idea of how we can drive an EV around Pennsylvania. We used the Alternative Fueling Stations 2021 Dataset, which is already tidy. Our cases are defined as a charging station in America. The original dataset includes a lot of attributes but we only need the Station Name, its State, its Longitude, and its Latitude. Also important to consider is whether the station is available for public use. Many charging stations are only for municipal workers, law enforcement, etc. 
+Our group wanted to examine charging stations in Pennsylvania. If we
+know where stations are, we can get a general idea of how we can drive
+an EV around Pennsylvania. We used the Alternative Fueling Stations 2021
+Dataset, which is already tidy. Our cases are defined as a charging
+station in America. The original dataset includes a lot of attributes
+but we only need the Station Name, its State, its Longitude, and its
+Latitude. Also important to consider is whether the station is available
+for public use. Many charging stations are only for municipal workers,
+law enforcement, etc.
 
-We can see from the Leaflet map that charging stations are common in PA, especially as one travels along the US highway system. To be exact, there are $931$ charging stations available for civilian use in this state, with some present in State College, Harrisburg, Pittsburgh, and Philadelphia. Clearly, the northern part of the state has the fewest stations but that will probably change in time.
+We can see from the Leaflet map that charging stations are common in PA,
+especially as one travels along the US highway system. To be exact,
+there are $931$ charging stations available for civilian use in this
+state, with some present in State College, Harrisburg, Pittsburgh, and
+Philadelphia. Clearly, the northern part of the state has the fewest
+stations but that will probably change in time.
 
 ```{r q1_station_map}
 # Create the leaflet map
@@ -280,9 +318,16 @@ EVchargemap <- leaflet(station_data) %>%
 # Display the map
 EVchargemap
 ```
+
 ## Question 2: What vehicle has the longest excursion time/length on a full-charge?
 
-Next, we'll examine fuel economy for EV SUV's, Sedans/Wagons, and Vans. This is probably one of the most important factors to consider when looking at electric vehicles. The dataset is a tidied list of electric vehicles, with some relevant attributes like Highway Fuel Economy. As we can see from the table, Sedans generally outclass SUV's and Vans for fuel economy. Indeed, the average fuel economy for a Sedan is $97.5625$, placing this category above SUV's and far above Vans.
+Next, we'll examine fuel economy for EV SUV's, Sedans/Wagons, and Vans.
+This is probably one of the most important factors to consider when
+looking at electric vehicles. The dataset is a tidied list of electric
+vehicles, with some relevant attributes like Highway Fuel Economy. As we
+can see from the table, Sedans generally outclass SUV's and Vans for
+fuel economy. Indeed, the average fuel economy for a Sedan is $97.5625$,
+placing this category above SUV's and far above Vans.
 
 ```{r q2_economy_table}
 
@@ -324,8 +369,26 @@ esquisser
 
 ## Question 4: How has the global supply of electric vehicles changed over the years?
 
-Around 1900, steam vehicles, gas vehicles, and electric vehicles were all competitive with each other.  Gas vehicles were more difficult to drive, while electric vehicles were easier to drive.  With electricity becoming more popular in homes, electric vehicles became a viable option for short trips.  However, when Henry Ford came out with the Model T, which cost only $650 per car, electric cars could not compete at $1750 per car.  The world became accustomed to gas-powered vehicles, and gas still is the most common fuel source for vehicles.  As science developed, electric cars have became cheaper and more efficient. In addition climate change, partially induced by gas-powered vehicles, has been a reason to make the switch to electric vehicles.  Another reason for the switch to electric vehicles, in sudden gas shortages caused by war and dependence on other countries. 
-Our group wanted to investigate how global EV supply has changed over the year.  Using the 2023 Global EV Outlook data set from the International Energy Agency, we were able to examine the change in the supply of electric vehicles over the years.  From the bar chart below, we can see that the quantity of electric vehicles' supplied has increased exponentially each year since 2010.  We can predict from this that there will be another significant increase in electric vehicles supplied for 2023.
+Around 1900, steam vehicles, gas vehicles, and electric vehicles were
+all competitive with each other. Gas vehicles were more difficult to
+drive, while electric vehicles were easier to drive. With electricity
+becoming more popular in homes, electric vehicles became a viable option
+for short trips. However, when Henry Ford came out with the Model T,
+which cost only \$650 per car, electric cars could not compete at \$1750
+per car. The world became accustomed to gas-powered vehicles, and gas
+still is the most common fuel source for vehicles. As science developed,
+electric cars have became cheaper and more efficient. In addition
+climate change, partially induced by gas-powered vehicles, has been a
+reason to make the switch to electric vehicles. Another reason for the
+switch to electric vehicles, in sudden gas shortages caused by war and
+dependence on other countries. Our group wanted to investigate how
+global EV supply has changed over the year. Using the 2023 Global EV
+Outlook data set from the International Energy Agency, we were able to
+examine the change in the supply of electric vehicles over the years.
+From the bar chart below, we can see that the quantity of electric
+vehicles' supplied has increased exponentially each year since 2010. We
+can predict from this that there will be another significant increase in
+electric vehicles supplied for 2023.
 
 ```{r q4_bar_plot}
 # Create Bar Chart of Global EV Ownership by Year -----------------------------
@@ -345,11 +408,21 @@ global_ev_supply_by_year_bar_chart <- ggplot(EV_supply_global_year, aes(x = year
 global_ev_supply_by_year_bar_chart
 ```
 
-## Question 5: Which countries lead in EV usage?  Which countries are lagging behind?
+## Question 5: Which countries lead in EV usage? Which countries are lagging behind?
 
-Similar to the race to the moon, different regions are trying to adapt quickly to the need for electric vehicles.  Our group wanted to investigate which countries lead in the race to the adaption to electric vehicles.  We also wanted to see which regions implemented electric vehicles the least. 
+Similar to the race to the moon, different regions are trying to adapt
+quickly to the need for electric vehicles. Our group wanted to
+investigate which countries lead in the race to the adaption to electric
+vehicles. We also wanted to see which regions implemented electric
+vehicles the least.
 
-From the bar chart below, we can see that China have the greatest quantity of electric vehicles supplied.  This might be due to the fact that they are the most populated region in the world.  It also may be due to their lack of child labor laws, which would allow them to increase production at a smaller cost.  We can also see that Turkey, South Africa, and Chile have implemented electric cars the least.  This is likely due to their economies not being as strong as China's or the United States.
+From the bar chart below, we can see that China have the greatest
+quantity of electric vehicles supplied. This might be due to the fact
+that they are the most populated region in the world. It also may be due
+to their lack of child labor laws, which would allow them to increase
+production at a smaller cost. We can also see that Turkey, South Africa,
+and Chile have implemented electric cars the least. This is likely due
+to their economies not being as strong as China's or the United States.
 
 ```{r q5_bar_plot}
 # Create bar chart of EV Ownership by Country ---------------------------------
@@ -372,9 +445,17 @@ regional_ev_supply_bar_chart
 
 ## Question 6: How do Electric Vehicles and Gas Vehicles compare in MPGe?
 
-Our group wanted to investigate whether gas-powered vehicles or electric vehicles were more efficient.  We decided to make a box plot of the miles per gallon equivalent (mpge) (where 33.7 kWh = 1 gallon) for gas-powered vehicles and electric vehicles.
+Our group wanted to investigate whether gas-powered vehicles or electric
+vehicles were more efficient. We decided to make a box plot of the miles
+per gallon equivalent (mpge) (where 33.7 kWh = 1 gallon) for gas-powered
+vehicles and electric vehicles.
 
-In the box plot below, we can see that electric vehicles tend to have a higher mpge than gas-powered vehicles.  This may be due to investment in electric vehicles which has allowed for quick advancement in the range of electric vehicles.  Also, electric vehicles directly convert a kilowatt hour to motion while gas-powered vehicle convert gas into heat which then creates motion.
+In the box plot below, we can see that electric vehicles tend to have a
+higher mpge than gas-powered vehicles. This may be due to investment in
+electric vehicles which has allowed for quick advancement in the range
+of electric vehicles. Also, electric vehicles directly convert a
+kilowatt hour to motion while gas-powered vehicle convert gas into heat
+which then creates motion.
 
 ```{r q6_box_plot}
 # Make Box Plots -------------------------------------------------------------
@@ -396,13 +477,23 @@ combined_mpge_box_plot
 
 ## Question 7: How do costs differ between electric vehicles and gas vehicles?
 
-After seeing that electric vehicles tend to have a greater miles per gallon equivalent than gas-powered vehicles, we wanted to see which was more cost effective.  We decided to take date from the Bureau of Labor Statistics for energy costs each month during 2022 (because 2023 has not finished yet).  We also took the average mpge from the 2024 vehicles tested by the US department of energy.  We then divided the mpge by the energy costs for each month and fuel type.  
+After seeing that electric vehicles tend to have a greater miles per
+gallon equivalent than gas-powered vehicles, we wanted to see which was
+more cost effective. We decided to take date from the Bureau of Labor
+Statistics for energy costs each month during 2022 (because 2023 has not
+finished yet). We also took the average mpge from the 2024 vehicles
+tested by the US department of energy. We then divided the mpge by the
+energy costs for each month and fuel type.
 
-We can see from the line graph below that an electric vehicle will go further distance per dollar of energy than a gas-powered vehicle.  This is due to electric vehicles having nearly four times the average mpge than a gas-powered vehicle.  Future evaluations should include costs to purchase the vehicles and costs of maintaining the vehicles.
+We can see from the line graph below that an electric vehicle will go
+further distance per dollar of energy than a gas-powered vehicle. This
+is due to electric vehicles having nearly four times the average mpge
+than a gas-powered vehicle. Future evaluations should include costs to
+purchase the vehicles and costs of maintaining the vehicles.
 
 ```{r q7_line_graph}
 # Make Line Graph ------------------------------------------------------------
-Miles_per_dollar_line_graph <- fuel_df %>%
+miles_per_dollar_line_graph <- fuel_df %>%
   ggplot(aes(x = date, y = miles_per_dollar, color = type)) +
   geom_line() +
   scale_y_continuous(n.breaks = 10, limits = c(0, 20)) +
@@ -415,9 +506,17 @@ Miles_per_dollar_line_graph <- fuel_df %>%
   theme_bw()
 
 # View Miles per Dollar Line Graph
-Miles_per_dollar_line_graph
+miles_per_dollar_line_graph
 ```
+## Conclusion
+
+It's obvious from our data and visualizations that owning an electric vehicle is more viable than ever. Charging stations are easily found in Pennsylvania, and it's no issue at all to go on a road trip given the excursion times of EV's.
+
+[Discuss the results from each question]
+
+When you decide to purchase your next vehicle, consider going electric. You're saving money and helping keep the planet clean and green at the same time.
 
 ## Code Appendix
+
 ```{r ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
 ```
