@@ -36,7 +36,7 @@ Use the following checklist to ensure that you have completed all of the tasks.
   - [X] Create at least one visual table (not a display of raw data) that assists both the team and readers in understanding the data.
   - [X] Have narrative text explaining every data visualization and table as well as setting a framework.
   - [X] All code should be written according to a Style Guide of your choice. List this Style Guide as a code comment in your first code chunk.
-  - [X] __Optional:__ For those who want to challenge themselves further, feel free to include a section on using other statistical methods such as hypothesis testing, regression, ANOVA, or machine learning--see Chapter 18 of the Data Computing eBook.
+  - [ ] __Optional:__ For those who want to challenge themselves further, feel free to include a section on using other statistical methods such as hypothesis testing, regression, ANOVA, or machine learning--see Chapter 18 of the Data Computing eBook.
 - [ ] Use GitHub to share changes and edits; there should be multiple commits to your repo and at least 2 by each team member. Ensure that your instructor has access to your repo
 - [ ] You'll submit an output file of your choice, the RMD, and a link to your GitHub Repo to the appropriate submission portal in Canvas.
     - __Due Date for Neil's Class: Wednesday, Dec. 13th, 2023 by 11:59pm ET__

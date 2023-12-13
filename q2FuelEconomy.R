@@ -5,18 +5,14 @@
 # Question 2: What vehicle has the longest excursion time/length on a full-charge? 
 
 # Package and Filepath Configuration ---------------------------
-library(dplyr)
-library(ggplot2)
-library(knitr)
-library(kableExtra)
-library(here)
+library(groundhog)
+groundhog.day="2023-11-20"
+
+pkgs=c('dplyr', 'ggplot2', 'knitr', 'here', 'leaflet', 'kableExtra')
+groundhog.library(pkgs, groundhog.day)
 
 csv_path <- here("EVcars.csv")
 EVcars <- read.csv(csv_path)
-
-# Including 'here' functionality for portable code
-# csv_path <- here("EVcars.csv")
-# EV_range_value_General <- read.csv(csv_path)
 
 # Data Wrangling ---------------------------
 EVcars_tidy <- EVcars %>%
@@ -26,7 +22,7 @@ EVcars_tidy <- EVcars %>%
          Category, Engine.Size, City.Fuel.Economy.Units, City.Fuel.Economy, 
          Highway.Fuel.Economy.Units, Highway.Fuel.Economy) 
 
-# filters to cases where fuel economy is measured in mpge and is a sedan/wagon  
+# Filters to cases where fuel economy is measured in mpge and is a sedan/wagon  
 EVcars_mpge <- EVcars_tidy %>%
   filter(City.Fuel.Economy.Units == 'mpge') 
 

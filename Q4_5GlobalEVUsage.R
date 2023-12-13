@@ -5,7 +5,6 @@
 # Question 4: How has global EV usage changed over the years?
 # Question 5: Which countries lead in EV usage?  Which countries are lagging behind?
 
-
 # Load Packages --------------------------------------------------------------
 # Use groundhog to make sure the code runs mostly everywhere
 library(groundhog)

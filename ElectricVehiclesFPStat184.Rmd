@@ -50,7 +50,7 @@ Electric vehicles, once a rarity, are now a common sight on America's roads and 
 (3) Washington State EV Database:
     -   Exploratory dataset used to learn about MSRP, excursion time
         using a full charge, etc
-    -   Most current data thus far
+    -   Does not appear in data visualizations
 
 # Datasets used for Visualizations
 
@@ -112,7 +112,8 @@ electricty_prices <- read_excel("bls_electricity_prices.xlsx", range = "B11:M11"
 
 (1) For Question 1, the data.gov dataset is already tidied. We want only
     the attributes Fuel.Type.Code, State, Groups.With.Access.Code,
-    Latitude, Longitude.
+    Latitude, Longitude. These attributes will help us show a map of publicly
+    available charging stations in Pennsylvania.
 
 (2) For Question 2, we tidied the dataset to include only the attributes
     as follows: Automobile.ID, Fuel, Manufacturer.ID, Manufacturer,
@@ -144,7 +145,6 @@ electricty_prices <- read_excel("bls_electricity_prices.xlsx", range = "B11:M11"
 
 ```{r wrangle_data, include = FALSE}
 # Wrangle Data ---------------------------------------------------------------
-
 # Q1: How common are charging stations in Pennsylvania for public use?
 
 filtered_stations <- EVfuelstations %>% 
@@ -169,6 +169,7 @@ station_data <- data.frame(
   Latitude <- latitude,
   Longitude <- longitude
 )
+# ---------------------------------------------------------------
 
 # Q2: What vehicle has the longest excursion time/length on a full-charge?
 # We have a lot of attributes to pull in. They are as follows:
@@ -182,10 +183,13 @@ EVcars_tidy <- EVcars %>%
 # filters to cases where fuel economy is measured in mpge and is a sedan/wagon  
 EVcars_mpge <- EVcars_tidy %>%
   filter(City.Fuel.Economy.Units == 'mpge') 
+# ---------------------------------------------------------------
 
 # Q3: How do EV manufacturers compare in excursion range and vehicle price?
 
 # [Placeholder Wrangling Code]
+
+# ---------------------------------------------------------------
 
 # Q4: wrangle IEA data to cases of years with attributes: year, count of EVs
 
@@ -195,12 +199,16 @@ EV_supply_global_year <- EV_Global_Historical_raw %>%
   group_by(year) %>%
   summarise(count = sum(value))
 
+# ---------------------------------------------------------------
+
 #  Q5: wrangle IEA data to get cases of regions from 2019-2022 with attributes: region, count of EVs
 EV_supply_region_2019_2022 <- EV_Global_Historical_raw %>%
   filter(unit == "Vehicles", region != "World", year >= 2019) %>%
   select(region, value) %>%
   group_by(region) %>%
   summarise(count = sum(value))
+
+# ---------------------------------------------------------------
 
 # Q6: US department of energy data: only want to include Model, fuel, veh_class, air pollution score, city mpg, highway mpg,  greenhouse gas score
 
@@ -223,6 +231,8 @@ EV_GAS_data <- EV_GAS_data_raw %>%
     cmb_mpge = as.numeric(cmb_mpge),
     greenhouse_gas_score = as.numeric(greenhouse_gas_score)
   )
+
+# ---------------------------------------------------------------
 
 # Q7: BLS Data + US department of energy data: case = a month with attribute: month, miles per gallon equivalent for fuel and electricity
 electricty_prices[1:12] <- electricty_prices[1:12] * 33.7 # converts from kWh to kWh equivalent of a gallon

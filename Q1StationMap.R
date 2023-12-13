@@ -23,7 +23,8 @@ EVfuelstations <- read.csv(csv_path)
 # This dataset includes a column called "Fuel Type Code" that can stand for electric, CNG, etc
 # We want to only consider the fuel stations that are ELEC, in Pennsylvania, and for public use
 # Private and government charging facilities off limits to the public are not uncommon
-# Case Definition: Charging station with relevant attributes: Fuel.Type.Code, State, Groups.With.Access.Code,
+# Case Definition: Charging station with relevant attributes: 
+# Fuel.Type.Code, State, Groups.With.Access.Code,
 # Latitude, Longitude
 
 filtered_stations <- EVfuelstations %>% 
@@ -51,6 +52,7 @@ station_data <- data.frame(
 
 # Plot data ---------------------------
 # Create the leaflet map
+# The setView coordinates center the map on PA
 EVchargemap <- leaflet(station_data) %>%
   setView(lng = -77.8124, lat = 40.86833, zoom = 6) %>%  
   addTiles() %>%  

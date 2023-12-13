@@ -25,11 +25,14 @@ https://data.wa.gov/Transportation/Electric-Vehicle-Population-Data/f6w7-q2d2
 
 (4) Data.gov sources:
 - Includes information on charging stations
+- Tidied, but includes a lot of irrelevant data
+
 https://catalog.data.gov/dataset/alternative-fueling-station-locations-422f2
 
 (5) IEA EV Dataset:
 - Includes global EV data by country
 - excel file, tidy => need to wrangle data to change cases
+
 https://www.iea.org/data-and-statistics/data-product/global-ev-outlook-2023#global-ev-data
 
 (6) Fueleconomy.gov Sources:
@@ -37,9 +40,11 @@ https://www.iea.org/data-and-statistics/data-product/global-ev-outlook-2023#glob
 - 2024 cars only
 - no missing values
 - xlsx file
+
 https://www.fueleconomy.gov/feg/download.shtml
 
 - history of electric cars
+
 https://www.energy.gov/articles/history-electric-car
 
 (7) Bureau of Labor Statistics:
@@ -52,28 +57,43 @@ https://www.energy.gov/articles/history-electric-car
 ----------------------------
 1. (Eric) How common are charging stations in Pennsylvania for public use? Answer: We will use the study in (4) to create a map of charging stations and discuss where they are located in this state.
 
-RELEVANT R CODE FILE: Q1StationMap.R
+RELEVANT R CODE FILE:   Q1StationMap.R
+RELEVANT DATASET FILE:  EVfuelstations.csv
 
 2. (Owen) What vehicle has the longest excursion time/length on a full-charge? Answer: We will use the study in (3) to analyze this data. 
 
-RELEVANT R CODE FILE: Q2FuelEconomy.R
+RELEVANT R CODE FILE:   Q2FuelEconomy.R
+RELEVANT DATASET FILE:  EVcars.csv
 
 3. (VK) How do EV manufacturers compare in excursion range and vehicle price?
 
-RELEVANT R CODE FILE: Q3PriceVsRange.R
+RELEVANT R CODE FILE:   Q3PriceVsRange.R
+RELEVANT DATASET FILE:  
 
 4. (Owen) How has global EV usage changed over the years?
 
-RELEVANT R CODE FILE: Q4_5GlobalEVUsage.R
+RELEVANT R CODE FILE:   Q4_5GlobalEVUsage.R
+RELEVANT DATASET FILE:  IEA_EV_SalesHistoricalCars.csv
 
 5. (Owen) Which countries lead in EV usage?  Which countries are lagging behind?
 
-RELEVANT R CODE FILE: Q4_5GlobalEVUsage.R
+RELEVANT R CODE FILE:   Q4_5GlobalEVUsage.R
+RELEVANT DATASET FILE:  IEA_EV_SalesHistoricalCars.csv
 
 6. (Owen) How do EV MPG compare to Gas MPG?
 
-RELEVANT R CODE FILE: Q6MPG_EV_vs_GAS.R
+RELEVANT R CODE FILE:   Q6MPG_EV_vs_GAS.R
+RELEVANT DATASET FILE:  all_alpha_24.xlsx
 
 7. (Owen) How do EV's and ICE cars compare in terms of cost?
 
-RELEVANT R CODE FILE: Q7_Price_Gas_Vs_Electricity.R
+RELEVANT R CODE FILE:   Q7_Price_Gas_Vs_Electricity.R
+RELEVANT DATASET FILES: bls_gas_prices.xlsx
+                        bls_electricity_prices.xlsx
+                        all_alpha_24.xlsx
+                        
+|-------------------|
+|RMD and Image Files|
+|-------------------|
+
+Our RMD file is:        ElectricVehiclesFPStat184.Rmd
