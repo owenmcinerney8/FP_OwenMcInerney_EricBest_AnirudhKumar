@@ -1,23 +1,9 @@
 |-----------------------|
 |Collaboration Text File|
 |-----------------------|
---------------------------------
--Powerpoint Presentation Assets-
---------------------------------
-----Presentation Rough Draft----
---------------------------------
-Canva Presentation (PDF's display correctly but not PowerPoints)
-https://www.canva.com/design/DAF2UymCGY0/o8zog8xl7m56JDZ4ycXbrQ/edit?utm_content=DAF2UymCGY0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
-
-EV Manufacturer Logos
-https://logos-world.net/electric-car-brands/
-
-Real-Life, Not a Render of the Mercedes Avatar
-https://driving.ca/mercedes-benz/auto-news/news/the-mercedes-benz-avtr-concept-is-an-avatar-inspired-autonomous-bio-car
-
-------------------------
--Potential Data Sources-
-------------------------
+--------------
+-Data Sources-
+--------------
 
 (1) Jeff Swanson's EV Dataset:
 - Includes a wide variety of automobiles
@@ -60,6 +46,7 @@ https://www.energy.gov/articles/history-electric-car
  - costs of gas and electricity
  https://data.bls.gov/pdq/SurveyOutputServlet
  https://data.bls.gov/pdq/SurveyOutputServlet
+ 
 ----------------------------
 -Data Exploration Questions-
 ----------------------------
@@ -67,8 +54,7 @@ https://www.energy.gov/articles/history-electric-car
 
 RELEVANT R CODE FILE: Q1StationMap.R
 
-2. (Owen) What vehicle has the longest excursion time/length on a full-charge? Answer: We will use the study in (3) to analyze this data. Note on electric vehicles:
-Weather can affect their performance, especially when it's cold.
+2. (Owen) What vehicle has the longest excursion time/length on a full-charge? Answer: We will use the study in (3) to analyze this data. 
 
 RELEVANT R CODE FILE: Q2FuelEconomy.R
 
@@ -87,3 +73,7 @@ RELEVANT R CODE FILE: Q4_5GlobalEVUsage.R
 6. (Owen) How do EV MPG compare to Gas MPG?
 
 RELEVANT R CODE FILE: Q6MPG_EV_vs_GAS.R
+
+7. (Owen) How do EV's and ICE cars compare in terms of cost?
+
+RELEVANT R CODE FILE: Q7_Price_Gas_Vs_Electricity.R

@@ -1,3 +1,10 @@
+#---------------------
+#-Data Visualizations-
+#---------------------
+## Please see Q0Notes_and_Ideas.txt for additional data questions and project documentation
+## Question 3: How do EV manufacturers compare in excursion range and vehicle price?
+
+# Package and Filepath Configuration ---------------------------
 library(here)
 library(readr)
 library(ggplot2)
@@ -5,11 +12,12 @@ library(ggplot2)
 # Read the data from the CSV file - traditional way
 #EV_range_value_General <- read_csv("~/Downloads/EV_range_value_General.csv")
 
-# Including 'here' functionality for portable code
+# Including 'here' functionality for portable codes
 # 'here' needs the file to be in the current directory, in our case, in the Github repository. It needs to be uploaded
 #csv_path <- here("EV_range_value_General.csv")
 #EV_range_value_General <- read.csv(csv_path)
 
+# Data Wrangling ---------------------------
 # View the structure of the data to verify column names and types
 str(EV_range_value_General)
 

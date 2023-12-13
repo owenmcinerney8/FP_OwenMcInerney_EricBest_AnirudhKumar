@@ -5,7 +5,7 @@ This repo will serve as the template file for the course project. Further, this 
 
 ## Project Purpose
 
-The purpose of this project is to provide you with an opportunity to put into practice *everything* that you have learned over the course of the semester and to push yourselves. To this end, you'll be posing your own research question(s) which you'll use to guide yourselves in exploratory data anlysis. An example report (that has a few extra features) is found in this repo.
+The purpose of this project is to provide you with an opportunity to put into practice *everything* that you have learned over the course of the semester and to push yourselves. To this end, you'll be posing your own research question(s) which you'll use to guide yourselves in exploratory data analysis. An example report (that has a few extra features) is found in this repo.
 
 ## Project Specifications 
 
@@ -24,23 +24,23 @@ Use the following checklist to ensure that you have completed all of the tasks.
 - [X] Conduct Exploratory Data Analysis.
 - [ ] Prepare a reproducible report
   - [x] Use a RMD file; output type is your choice.
-  - [ ] The report should be well organized with section headings
-  - [ ] Code should be collapsed/hidden for HTML, and R Notebooks or in a Code Appendix at the end for a PDF.
-  - [ ] All outputs should be accompanied by narrative text to explain what the reader should be seeing.
-  - [ ] State your research questions and explain them.
-  - [ ] Describe your data sources (where they come from, what was their original purpose, who/what comprise the cases in each).
-  - [ ] Describe what attributes you'll focus your analysis on (mention if they are part of your data sets or if you created them out of your data sets).
+  - [X] The report should be well organized with section headings
+  - [X] Code should be collapsed/hidden for HTML, and R Notebooks or in a Code Appendix at the end for a PDF.
+  - [X] All outputs should be accompanied by narrative text to explain what the reader should be seeing.
+  - [X] State your research questions and explain them.
+  - [X] Describe your data sources (where they come from, what was their original purpose, who/what comprise the cases in each).
+  - [X] Describe what attributes you'll focus your analysis on (mention if they are part of your data sets or if you created them out of your data sets).
   - [x] Create multiple data visualizations that assist both the team and readers in understanding the data.
     - Data visualizations should show a variety of your skills and geometries.
     -  __Optional__: If your research question/data make sense to do so, try creating a map.
-  - [ ] Create at least one visual table (not a display of raw data) that assists both the team and readers in understanding the data.
-  - [ ] Have narrative text explaining every data visualization and table as well as setting a framework.
-  - [ ] All code should be written according to a Style Guide of your choice. List this Style Guide as a code comment in your first code chunk.
+  - [X] Create at least one visual table (not a display of raw data) that assists both the team and readers in understanding the data.
+  - [X] Have narrative text explaining every data visualization and table as well as setting a framework.
+  - [X] All code should be written according to a Style Guide of your choice. List this Style Guide as a code comment in your first code chunk.
   - [X] __Optional:__ For those who want to challenge themselves further, feel free to include a section on using other statistical methods such as hypothesis testing, regression, ANOVA, or machine learning--see Chapter 18 of the Data Computing eBook.
 - [ ] Use GitHub to share changes and edits; there should be multiple commits to your repo and at least 2 by each team member. Ensure that your instructor has access to your repo
 - [ ] You'll submit an output file of your choice, the RMD, and a link to your GitHub Repo to the appropriate submission portal in Canvas.
     - __Due Date for Neil's Class: Wednesday, Dec. 13th, 2023 by 11:59pm ET__
-- [ ] During the last week of classes (Dec. 6th and Dec. 8th), your group will need to share a short presentation 3-5 minutes of what you've investigated and learned so far.
+- [X] During the last week of classes (Dec. 6th and Dec. 8th), your group will need to share a short presentation 3-5 minutes of what you've investigated and learned so far.
 - [ ] Each member of the team needs to complete Peer/Self Evaluations using the included Evaluation template and upload the knitted PDF to the appropriate submission portal in Canvas.
     - __Due Date: Thursday, Dec. 14th, 2023 by 11:59pm ET__
 - [ ] Update this README file to check off all elements you have completed by placing an x inside the square brackets: [x] 

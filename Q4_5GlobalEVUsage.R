@@ -1,32 +1,40 @@
-### Load Packages --------------------------------------------------------------
-## Use groundhog to make sure the code runs mostly everywhere
+#---------------------
+#-Data Visualizations-
+#---------------------
+# Please see Q0Notes_and_Ideas.txt for additional data questions and project documentation
+# Question 4: How has global EV usage changed over the years?
+# Question 5: Which countries lead in EV usage?  Which countries are lagging behind?
+
+
+# Load Packages --------------------------------------------------------------
+# Use groundhog to make sure the code runs mostly everywhere
 library(groundhog)
 groundhog.day <- "2023-11-20"
 pkgs <- c("here", "dplyr", "dbplyr", "ggplot2")
 groundhog.library(pkgs, groundhog.day)
 
-
-### Load Data ------------------------------------------------------------------
-## Using 'here' for a relative file path
-options(scipen = 999) # Ensures scientific notation is not used
+# Load Data ------------------------------------------------------------------
+# Using 'here' for a relative file path
+# Ensures scientific notation is not used
+options(scipen = 999) 
 csv_path <- here("IEA_EV_SalesHistoricalCars.csv")
 EV_Global_Historical_raw <- read.csv(csv_path)
 
 
-### Wrangle Data ---------------------------------------------------------------
-## wrangle data to include columns for: year, region, count of EVs
+# Wrangle Data ---------------------------------------------------------------
+# Wrangle data to include columns for: year, region, count of EVs
 EV_ownership_region_year_raw <- EV_Global_Historical_raw %>%
   filter(unit == "Vehicles", region != "World") %>%
   select(region, year, value) %>%
   group_by(region, year) %>%
   summarise(count = sum(value))
 
-## wrangled data to cases of years with attributes: year, count of EVs
+# wrangled data to cases of years with attributes: year, count of EVs
 EV_ownership_global_year <- EV_ownership_region_year_raw %>%
   group_by(year) %>%
   summarise(count = sum(count))
 
-### CREATE Bar Chart of Global EV Ownership by Year ----------------------------
+# CREATE Bar Chart of Global EV Ownership by Year ----------------------------
 global_ev_ownership_by_year_bar_chart <- ggplot(EV_ownership_global_year, aes(x = year, y = count, fill = "red")) +
   geom_col() +
   scale_y_continuous(n.breaks = 8, limits = c(0, max(EV_production_global_year$count))) +
@@ -37,11 +45,13 @@ global_ev_ownership_by_year_bar_chart <- ggplot(EV_ownership_global_year, aes(x 
     y = "Count of Electric Vehicles"
   ) +
   theme_classic() +
-  theme(legend.position = "none") # removes legend
+  # removes legend
+  theme(legend.position = "none") 
 
-global_ev_ownership_by_year_bar_chart # to view bar chart
+# to view bar chart
+global_ev_ownership_by_year_bar_chart 
 
-### Create bar chart of EV Ownership by Country -----------------------------------
+# Create bar chart of EV Ownership by Country -----------------------------------
 # Wrangle Data to get cases of regions from 2019-2022 with attributes: region, count
 EV_ownership_region_2019_2022 <- EV_ownership_region_year_raw %>%
   filter(year >= 2019) %>%
@@ -63,9 +73,9 @@ regional_ev_ownership_bar_chart <- ggplot(EV_ownership_region_2019_2022, aes(x =
 
 regional_ev_ownership_bar_chart # to view bar chart
 
-### Q5 Expansion: What percentage of EVs do the top 3 owning EV countries own?
+# Question 5 Expansion: What percentage of EVs do the top 3 owning EV countries own?
 
-## Wrangle Data to top 3 (China, Europe, EU) vs everyone else
+# Wrangle Data to top 3 (China, Europe, EU) vs everyone else
 EV_ownership_region_2019_2022_order_count <- EV_ownership_region_2019_2022[order(EV_ownership_region_2019_2022$count, decreasing = TRUE), ]
 
 top_3_count <- (sum(EV_ownership_region_2019_2022_order_count[1:3, 2]) / sum(EV_ownership_region_2019_2022_order_count$count)) * 100
@@ -76,7 +86,7 @@ bottom_count
 
 top_vs_bottom_df <- data.frame(Top3 = c("Yes", "No"), percent = c(top_3_count, bottom_count)) # create data frame
 
-## Create Bar Chart of Top 3 vs Bottom 3
+# Create Bar Chart of Top 3 vs Bottom 3
 top_vs_bottom_percent <- top_vs_bottom_df %>%
   ggplot(aes(x = Top3, y = percent, fill = Top3)) +
   geom_col() +
@@ -88,7 +98,7 @@ top_vs_bottom_percent <- top_vs_bottom_df %>%
   scale_y_continuous(n.breaks = 10, limits = c(0, 100)) +
   theme_bw()
 
-### View Charts ----------------------------------------------------------------
+# View Charts ----------------------------------------------------------------
 global_ev_ownership_by_year_bar_chart
 regional_ev_ownership_bar_chart
 top_vs_bottom_percent

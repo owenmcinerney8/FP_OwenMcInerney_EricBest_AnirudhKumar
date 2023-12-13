@@ -30,28 +30,59 @@ groundhog.library(pkgs, groundhog.day)
 
 ## Data Sources
 
-(1)
-(2)
-(3)
-(4)
+# Exploratory Datasets
+
+(1) Jeff Swanson's EV Dataset
+    - Used to get a general idea of EV cars and their characteristics
+    - Does not appear in data visualizations
+    
+(2) New York State EV Rebate Program Dataset
+    - Used to investigate rebate programs, which impacts economic viability
+    - Does not appear in data visualizations
+    
+(3) Washington State EV Database:
+    - Exploratory dataset used to learn about MSRP, excursion time using a full charge, etc
+    - Most current data thus far
+
+# Datasets used for Visualizations   
+
+(4) Alternative Fueling Stations Dataset
+    - Includes information on charging stations throughout the USA and Canada
+    - Cases: A charging station
+    - Attributes: Fuel.Type.Code, State, Groups.With.Access.Code, Latitude, Longitude
+    
 (5) International Energy Agency
     - Global EV 2023 Outlook CSV
-      - cases: a given setting
-      - attributes: year, month, region EV sales, EV Stock, EV type
+      - Cases: a given setting
+      - Attributes: year, month, region EV sales, EV Stock, EV type
+      
 (6) US Department of Energy
     -  2024 vehicles to assess energy efficiency of different vehicles excel file
-      - cases: vehicle
-      - attributes: model, fuel type, city mpge (miles per gallon equivalent), highway mpge equivalent, greenhouse gas score, CO2 emissions, vehicle size
+      - Cases: vehicle
+      - Attributes: model, fuel type, city mpge (miles per gallon equivalent), highway mpge equivalent, greenhouse gas score, CO2 emissions,               vehicle size
+      
 (7) Bureau of Labor Statistics
     - 2022 Electricity prices by month per kWh excel file
-      - case: energy type
-      - attributes: energy type, January average price, February average price, etc.
+      - Cases: energy type
+      - Attributes: energy type, January average price, February average price, etc.
     - 2022 Unleaded Regular Gas Price per gallon
-      - case: energy type
-      - attributes: energy type, January average price, February average price, etc.
+      - Cases: energy type
+      - Attributes: energy type, January average price, February average price, etc.
 
 ``` {r load_data, include = FALSE}
-options(scipen = 999) # Ensures scientific notation is not used
+# Ensures scientific notation is not used
+options(scipen = 999) 
+
+# Alternative Fueling Stations Data for Q1
+csv_path <- here("EVfuelstations.csv")
+EVfuelstations <- read.csv(csv_path)
+
+# EVcars Data for Q2
+
+csv_path <- here("EVcars.csv")
+EVcars <- read.csv(csv_path)
+
+# Dataset for Q3
 
 # IEA csv File for Q4 and Q5
 csv_path <- here("IEA_EV_SalesHistoricalCars.csv")
@@ -64,32 +95,89 @@ EV_GAS_data_raw <- read_excel("all_alpha_24.xlsx")
 gas_prices <- read_excel("bls_gas_prices.xlsx", range = "B11:M11", col_names = FALSE)
 electricty_prices <- read_excel("bls_electricity_prices.xlsx", range = "B11:M11", col_names = FALSE)
 ```
+
 ## Data Wrangling
+(1) For Question 1, the data.gov dataset is already tidied. We want only the attributes Fuel.Type.Code, State, Groups.With.Access.Code, Latitude, Longitude.
 
-(4) For Question 4, we wanted to change the IEA dataset from a case of a given setting to a given year.  The attributes we wanted were the year and the count of electric vehicles supplied in that year.
+(2) For Question 2, we tidied the dataset to include only the attributes as follows: 
+    Automobile.ID, Fuel, Manufacturer.ID, Manufacturer, Model, 
+    Model.Year,Category.ID, Engine.Type, Engine.Size, Transmission.Type, 
+    Category, Engine.Size, City.Fuel.Economy.Units, City.Fuel.Economy, 
+    Highway.Fuel.Economy.Units, Highway.Fuel.Economy.
 
-(5) For Question 5, we wanted to change the IEA dataset from a case of a given setting to a given region.  The attributes we wanted was the region and the count of electric vehicles supplied in that region between 2019 and 2022.
+(3) For Question 3, we already had tidied data for EV's. The desired attributes are Price and Range.
 
-(6) For Question 6, we wanted to change to preserve the case of a car, but only take attributes: model, fuel type, vehicle size, air pollution score, city mpge, highway mpge, combined mpge, and greenhouse gas score.  
+(4) For Question 4, we wanted to change the IEA dataset from a case of a given setting to a given year.  The attributes we wanted were the year and     the count of electric vehicles supplied in that year.
 
-(7) For Question 7, we wanted to join the tables the Bureau of Labor Statistics for electric and gas costs and change the case from an energy type to a month with the attributes: month, fuel type, and miles per dollar.
-``` {r wrangle_data}
-### Wrangle Data ---------------------------------------------------------------
-## Q4: wrangle IEA data to cases of years with attributes: year, count of EVs
+(5) For Question 5, we wanted to change the IEA dataset from a case of a given setting to a given region.  The attributes we wanted was the region     and the count of electric vehicles supplied in that region between 2019 and 2022.
+
+(6) For Question 6, we wanted to change to preserve the case of a car, but only take attributes: 
+    model, fuel type, vehicle size, air pollution score, city mpge, 
+    highway mpge, combined mpge, and greenhouse gas score.  
+
+(7) For Question 7, we wanted to join the tables the Bureau of Labor Statistics for electric and gas costs and change the case from an energy type     to a month with the attributes: month, fuel type, and miles per dollar.
+
+``` {r wrangle_data, include = FALSE}
+# Wrangle Data ---------------------------------------------------------------
+
+# Q1: How common are charging stations in Pennsylvania for public use?
+
+filtered_stations <- EVfuelstations %>% 
+  filter(Fuel.Type.Code == "ELEC") %>%
+  filter(State == "PA") %>% 
+  filter(Groups.With.Access.Code == 'Public')
+
+# Printing the number of stations in Pennsylvania
+num_stations <- nrow(filtered_stations)
+print("Number of Public EV Charging Stations in PA:")
+print(num_stations)
+
+# The station names and coordinates are easily selected
+stationNames <- filtered_stations$Station.Name
+latitude <- filtered_stations$Latitude
+longitude <- filtered_stations$Longitude
+
+# Create a custom data frame with station coordinates and names
+# Leaflet is sensitive to large datasets
+station_data <- data.frame(
+  Name <- stationNames,
+  Latitude <- latitude,
+  Longitude <- longitude
+)
+
+# Q2: What vehicle has the longest excursion time/length on a full-charge?
+# We have a lot of attributes to pull in. They are as follows:
+EVcars_tidy <- EVcars %>%
+  filter(Fuel.ID == 41) %>%
+  select(Automobile.ID, Fuel, Manufacturer.ID, Manufacturer, Model, 
+         Model.Year,Category.ID, Engine.Type, Engine.Size, Transmission.Type,
+         Category, Engine.Size, City.Fuel.Economy.Units, City.Fuel.Economy, 
+         Highway.Fuel.Economy.Units, Highway.Fuel.Economy) 
+
+# filters to cases where fuel economy is measured in mpge and is a sedan/wagon  
+EVcars_mpge <- EVcars_tidy %>%
+  filter(City.Fuel.Economy.Units == 'mpge') 
+
+# Q3: How do EV manufacturers compare in excursion range and vehicle price?
+
+# [Placeholder Wrangling Code]
+
+# Q4: wrangle IEA data to cases of years with attributes: year, count of EVs
+
 EV_supply_global_year <- EV_Global_Historical_raw %>%
   filter(unit == "Vehicles", region != "World") %>%
   select(year, value) %>%
   group_by(year) %>%
   summarise(count = sum(value))
 
-## Q5: wrangle IEA data to get cases of regions from 2019-2022 with attributes: region, count of EVs
+#  Q5: wrangle IEA data to get cases of regions from 2019-2022 with attributes: region, count of EVs
 EV_supply_region_2019_2022 <- EV_Global_Historical_raw %>%
   filter(unit == "Vehicles", region != "World", year >= 2019) %>%
   select(region, value) %>%
   group_by(region) %>%
   summarise(count = sum(value))
 
-## Q6: US department of energy data: only want to include Model, fuel, veh_class, air pollution score, city mpg, highway mpg,  greenhouse gas score
+# Q6: US department of energy data: only want to include Model, fuel, veh_class, air pollution score, city mpg, highway mpg,  greenhouse gas score
 
 # Change names of columns with spaces
 colnames(EV_GAS_data_raw)[11] <- "veh_class"
@@ -111,7 +199,7 @@ EV_GAS_data <- EV_GAS_data_raw %>%
     greenhouse_gas_score = as.numeric(greenhouse_gas_score)
   )
 
-## Q7: BLS Data + US department of energy data: case = a month with attribute: month, miles per gallon equivalent for fuel and electricity
+# Q7: BLS Data + US department of energy data: case = a month with attribute: month, miles per gallon equivalent for fuel and electricity
 electricty_prices[1:12] <- electricty_prices[1:12] * 33.7 # converts from kWh to kWh equivalent of a gallon
 fuel_df <- full_join(gas_prices, electricty_prices)
 
@@ -176,13 +264,71 @@ fuel_df <- fuel_df %>%
   select(date, type, miles_per_dollar)
 ```
 
+## Question 1: How common are charging stations in Pennsylvania for public use?
+
+Our group wanted to examine charging stations in Pennsylvania. If we know where stations are, we can get a general idea of how we can drive an EV around Pennsylvania. We used the Alternative Fueling Stations 2021 Dataset, which is already tidy. Our cases are defined as a charging station in America. The original dataset includes a lot of attributes but we only need the Station Name, its State, its Longitude, and its Latitude. Also important to consider is whether the station is available for public use. Many charging stations are only for municipal workers, law enforcement, etc. 
+
+We can see from the Leaflet map that charging stations are common in PA, especially as one travels along the US highway system. To be exact, there are $931$ charging stations available for civilian use in this state, with some present in State College, Harrisburg, Pittsburgh, and Philadelphia. Clearly, the northern part of the state has the fewest stations but that will probably change in time.
+
+```{r q1_station_map}
+# Create the leaflet map
+EVchargemap <- leaflet(station_data) %>%
+  setView(lng = -77.8124, lat = 40.86833, zoom = 6) %>%  
+  addTiles() %>%  
+  addMarkers(lat = ~Latitude, lng = ~Longitude, popup = ~Name)  
+
+# Display the map
+EVchargemap
+```
+## Question 2: What vehicle has the longest excursion time/length on a full-charge?
+
+Next, we'll examine fuel economy for EV SUV's, Sedans/Wagons, and Vans. This is probably one of the most important factors to consider when looking at electric vehicles. The dataset is a tidied list of electric vehicles, with some relevant attributes like Highway Fuel Economy. As we can see from the table, Sedans generally outclass SUV's and Vans for fuel economy. Indeed, the average fuel economy for a Sedan is $97.5625$, placing this category above SUV's and far above Vans.
+
+```{r q2_economy_table}
+
+funx <- list(
+  min = ~min(.x, na.rm = TRUE),
+  Q1 = ~quantile(.x, probs = 0.20, na.rm = TRUE),
+  Q2 = ~quantile(.x, probs = 0.40, na.rm = TRUE),
+  median = ~median(.x, na.rm = TRUE),
+  Q3 = ~quantile(.x, probs = 0.60, na.rm = TRUE),
+  Q4 = ~quantile(.x, probs = 0.80, na.rm = TRUE),
+  max = ~max(.x, na.rm = TRUE),
+  mean = ~mean(.x, na.rm = TRUE),
+  std = ~sd(.x, na.rm = TRUE)
+)
+
+EVcars_mpge_CityHighway_FiveNumSum <- EVcars_mpge %>%
+  group_by(Category) %>%
+  select(Category, City.Fuel.Economy, Highway.Fuel.Economy) %>%
+  summarize(
+    across(
+      .cols=where(is.numeric),
+      .fns = funx),
+    count =n()
+  )
+
+# Display Table ---------------------------
+EVcars_mpge_CityHighway_FiveNumSum %>%
+  kable() %>%
+  kableExtra::kable_classic()
+
+esquisser(data = EVcars_mpge, viewer = getOption(x, default = "dialog"))
+
+esquisser
+```
+
+## Question 3: How do EV manufacturers compare in excursion range and vehicle price?
+
+[Placeholder Text and Chunk]
+
 ## Question 4: How has the global supply of electric vehicles changed over the years?
 
 Around 1900, steam vehicles, gas vehicles, and electric vehicles were all competitive with each other.  Gas vehicles were more difficult to drive, while electric vehicles were easier to drive.  With electricity becoming more popular in homes, electric vehicles became a viable option for short trips.  However, when Henry Ford came out with the Model T, which cost only $650 per car, electric cars could not compete at $1750 per car.  The world became accustomed to gas-powered vehicles, and gas still is the most common fuel source for vehicles.  As science developed, electric cars have became cheaper and more efficient. In addition climate change, partially induced by gas-powered vehicles, has been a reason to make the switch to electric vehicles.  Another reason for the switch to electric vehicles, in sudden gas shortages caused by war and dependence on other countries. 
-
 Our group wanted to investigate how global EV supply has changed over the year.  Using the 2023 Global EV Outlook data set from the International Energy Agency, we were able to examine the change in the supply of electric vehicles over the years.  From the bar chart below, we can see that the quantity of electric vehicles' supplied has increased exponentially each year since 2010.  We can predict from this that there will be another significant increase in electric vehicles supplied for 2023.
+
 ```{r q4_bar_plot}
-### Create Bar Chart of Global EV Ownership by Year -----------------------------
+# Create Bar Chart of Global EV Ownership by Year -----------------------------
 global_ev_supply_by_year_bar_chart <- ggplot(EV_supply_global_year, aes(x = year, y = count, fill = "red")) +
   geom_col() +
   scale_y_continuous(n.breaks = 8, limits = c(0, max(EV_supply_global_year$count))) +
@@ -195,7 +341,7 @@ global_ev_supply_by_year_bar_chart <- ggplot(EV_supply_global_year, aes(x = year
   theme_classic() +
   theme(legend.position = "none") # removes legend
 
-## View Global EV supply by year Bar Chart
+# View Global EV supply by year Bar Chart
 global_ev_supply_by_year_bar_chart
 ```
 
@@ -206,7 +352,7 @@ Similar to the race to the moon, different regions are trying to adapt quickly t
 From the bar chart below, we can see that China have the greatest quantity of electric vehicles supplied.  This might be due to the fact that they are the most populated region in the world.  It also may be due to their lack of child labor laws, which would allow them to increase production at a smaller cost.  We can also see that Turkey, South Africa, and Chile have implemented electric cars the least.  This is likely due to their economies not being as strong as China's or the United States.
 
 ```{r q5_bar_plot}
-## Create bar chart of EV Ownership by Country ---------------------------------
+# Create bar chart of EV Ownership by Country ---------------------------------
 # use y = reorder(region, +count) to order countries by car ownership
 regional_ev_supply_bar_chart <- ggplot(EV_supply_region_2019_2022, aes(x = count, y = reorder(region, +count), fill = "red")) +
   geom_col() +
@@ -220,7 +366,7 @@ regional_ev_supply_bar_chart <- ggplot(EV_supply_region_2019_2022, aes(x = count
   theme_classic() +
   theme(legend.position = "none") # removes legend
 
-## View Regional EV Supply Bar Chart
+# View Regional EV Supply Bar Chart
 regional_ev_supply_bar_chart
 ```
 
@@ -231,8 +377,8 @@ Our group wanted to investigate whether gas-powered vehicles or electric vehicle
 In the box plot below, we can see that electric vehicles tend to have a higher mpge than gas-powered vehicles.  This may be due to investment in electric vehicles which has allowed for quick advancement in the range of electric vehicles.  Also, electric vehicles directly convert a kilowatt hour to motion while gas-powered vehicle convert gas into heat which then creates motion.
 
 ```{r q6_box_plot}
-### Make Box Plots -------------------------------------------------------------
-## Combined MPGe Box Plot
+# Make Box Plots -------------------------------------------------------------
+# Combined MPGe Box Plot
 combined_mpge_box_plot <- EV_GAS_data %>%
   group_by(Fuel) %>%
   ggplot(aes(x = Fuel, y = cmb_mpge, group = Fuel, fill = Fuel)) +
@@ -244,7 +390,7 @@ combined_mpge_box_plot <- EV_GAS_data %>%
   ) +
   theme_minimal()
 
-## View Combined MPGe Box Plot
+# View Combined MPGe Box Plot
 combined_mpge_box_plot
 ```
 
@@ -253,8 +399,9 @@ combined_mpge_box_plot
 After seeing that electric vehicles tend to have a greater miles per gallon equivalent than gas-powered vehicles, we wanted to see which was more cost effective.  We decided to take date from the Bureau of Labor Statistics for energy costs each month during 2022 (because 2023 has not finished yet).  We also took the average mpge from the 2024 vehicles tested by the US department of energy.  We then divided the mpge by the energy costs for each month and fuel type.  
 
 We can see from the line graph below that an electric vehicle will go further distance per dollar of energy than a gas-powered vehicle.  This is due to electric vehicles having nearly four times the average mpge than a gas-powered vehicle.  Future evaluations should include costs to purchase the vehicles and costs of maintaining the vehicles.
+
 ```{r q7_line_graph}
-### Make Line Graph ------------------------------------------------------------
+# Make Line Graph ------------------------------------------------------------
 Miles_per_dollar_line_graph <- fuel_df %>%
   ggplot(aes(x = date, y = miles_per_dollar, color = type)) +
   geom_line() +
@@ -267,7 +414,7 @@ Miles_per_dollar_line_graph <- fuel_df %>%
   ) +
   theme_bw()
 
-## View Miles per Dollar Line Graph
+# View Miles per Dollar Line Graph
 Miles_per_dollar_line_graph
 ```
 
