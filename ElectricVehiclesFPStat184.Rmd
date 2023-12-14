@@ -520,11 +520,14 @@ miles_per_dollar_line_graph
 ```
 ## Conclusion
 
-It's obvious from our data and visualizations that owning an electric vehicle is more viable than ever. Charging stations are easily found in Pennsylvania, and it's no issue at all to go on a road trip given the excursion times of EV's.
+It's obvious from our data and visualizations that owning an electric vehicle is more viable than ever. We saw in Question 1 how charging stations are becoming more and more common. They are far more numerous than ever before. In Question 2, we generated statistics to show that electric sedans are a great choice for highway fuel economy.
 
-[Discuss the results from each question]
+[Insert Question 3 discussion here]
 
-When you decide to purchase your next vehicle, consider going electric. You're saving money and helping keep the planet clean and green at the same time.
+In Question 4, we saw that manufacturers are ramping up supply to meet increasing demands for these cars. Then, in Question 5, we examined a chart showing which countries are falling in love with EV's - America, China, and members of the EU. We can see that other countries such as Greece and Chile have yet to adopt these cars. In Question 6, we introduced a measurement of EV fuel efficiency called MPGe, and found that EV's outclass gasoline vehicles in this metric. Lastly, in Question 7, we showed a graph that suggests EV's are far more economical than conventional cars on a miles-per-dollar basis. 
+
+When we consider all of these factors, it's clear that electric vehicles are here to stay. 
+
 
 ## Code Appendix
 
