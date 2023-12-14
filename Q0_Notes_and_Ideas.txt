@@ -65,10 +65,10 @@ RELEVANT DATASET FILE:  EVfuelstations.csv
 RELEVANT R CODE FILE:   Q2FuelEconomy.R
 RELEVANT DATASET FILE:  EVcars.csv
 
-3. (VK) How do EV manufacturers compare in excursion range and vehicle price?
+3. (VK) How do EV manufacturers compare by make and average EPA for their products?
 
 RELEVANT R CODE FILE:   Q3PriceVsRange.R
-RELEVANT DATASET FILE:  
+RELEVANT DATASET FILE:  EVrange_value_General.csv
 
 4. (Owen) How has global EV usage changed over the years?
 
