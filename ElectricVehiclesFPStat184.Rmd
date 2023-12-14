@@ -196,13 +196,6 @@ EV_range_value_df <- EV_range_value_General %>%
   mutate(Price = as.numeric(gsub(",", "", Price))) %>%
   select(Price, EPA_range_mi, Make)
 
-# Wangling Data to have case: make and attribute: make and avg epa range
-EV_range_value_df <- EV_range_value_General %>%
-  select(EPA_range_mi, Make) %>%
-  group_by(Make) %>%
-  summarise(EPA_range_avg = mean(EPA_range_mi)) %>%
-  head()
-
 # ---------------------------------------------------------------
 
 # Q4: wrangle IEA data to cases of years with attributes: year, count of EVs
