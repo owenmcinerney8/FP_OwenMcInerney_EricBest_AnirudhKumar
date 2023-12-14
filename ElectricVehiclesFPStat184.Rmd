@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = FALSE)
 # Style of Choice -- TidyVerse Styling
 library(groundhog)
 groundhog.day <- "2023-11-20"
-pkgs <- c("here", "dplyr", "dbplyr", "ggplot2", "readxl", "tidyverse", "knitr", "kableExtra", "leaflet")
+pkgs <- c("here", "dplyr", "dbplyr", "ggplot2", "readxl", "tidyverse", "knitr", "kableExtra", "leaflet", "esquisse")
 groundhog.library(pkgs, groundhog.day)
 ```
 
@@ -339,7 +339,7 @@ can see from the table, Sedans generally outclass SUV's and Vans for
 fuel economy. Indeed, the average fuel economy for a Sedan is $97.5625$,
 placing this category above SUV's and far above Vans.
 
-```{r q2_economy_table}
+```{r q2_economy_table, error = FALSE, warning = FALSE}
 
 funx <- list(
   min = ~min(.x, na.rm = TRUE),
@@ -367,10 +367,6 @@ EVcars_mpge_CityHighway_FiveNumSum <- EVcars_mpge %>%
 EVcars_mpge_CityHighway_FiveNumSum %>%
   kable() %>%
   kableExtra::kable_classic()
-
-esquisser(data = EVcars_mpge, viewer = getOption(x, default = "dialog"))
-
-esquisser
 ```
 
 ## Question 3: How do EV manufacturers compare in excursion range and vehicle price?

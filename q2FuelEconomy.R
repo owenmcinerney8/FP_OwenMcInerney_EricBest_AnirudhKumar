@@ -48,12 +48,15 @@ EVcars_mpge_CityHighway_FiveNumSum <- EVcars_mpge %>%
       .fns = funx),
     count =n()
   )
-
+EVcars_mpge_CityHighway_FiveNumSum <- setNames(EVcars_mpge_CityHighway_FiveNumSum, 
+                                               c("Category", "Minimum", "1st Quartile", "2nd Quartile",
+                                                 "Median", "3rd Quartile", "4th Quartile",
+                                                 "Max", "Mean", "Standard Deviation", "# of Vehicles"))
 # Display Table ---------------------------
 EVcars_mpge_CityHighway_FiveNumSum %>%
   kable() %>%
-  kableExtra::kable_classic()
+  kableExtra::kable_classic() %>%
+  add_header_above(c("EV Highway Economy, in MPGe" = 11))%>%
+  add_footnote("MPGe: Miles Per Gallon equivalent. This measures an EV's efficiency against gasoline vehicles")
 
-esquisser(data = EVcars_mpge, viewer = getOption(x, default = "dialog"))
-
-esquisser
+  
