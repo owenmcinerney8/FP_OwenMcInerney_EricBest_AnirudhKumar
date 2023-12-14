@@ -22,7 +22,7 @@ EV_range_value_General <- read.csv(csv_path)
 # Need to change name of EPA range attribute to access
 colnames(EV_range_value_General)[5] <- "EPA_range_mi"
 
-# Wangling Data to have case: make and attribute: make and avg epa range
+# Wangling Data to have case: electric vehicle and attribute: price and epa range
 EV_range_value_df <- EV_range_value_General %>%
   mutate(Price = as.numeric(gsub(",", "", Price))) %>%
   select(Price, EPA_range_mi, Make)

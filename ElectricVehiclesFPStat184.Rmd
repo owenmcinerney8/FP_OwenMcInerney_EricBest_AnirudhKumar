@@ -191,6 +191,11 @@ EVcars_mpge <- EVcars_tidy %>%
 # Need to change name of EPA range attribute to access
 colnames(EV_range_value_General)[5] <- "EPA_range_mi"
 
+# Wangling Data to have case: electric vehicle and attribute: price and epa range
+EV_range_value_df <- EV_range_value_General %>%
+  mutate(Price = as.numeric(gsub(",", "", Price))) %>%
+  select(Price, EPA_range_mi, Make)
+
 # Wangling Data to have case: make and attribute: make and avg epa range
 EV_range_value_df <- EV_range_value_General %>%
   select(EPA_range_mi, Make) %>%
@@ -386,19 +391,20 @@ EVcars_mpge_CityHighway_FiveNumSum %>%
 
 [Placeholder Text and Chunk]
 
-```{r q3_avg_eda_range_bar_chart, error = FALSE, warning = FALSE}
-# Create a bar chart
-EPA_range_by_make_bar_chart <- ggplot(EV_range_value_df, aes(x = reorder(Make, +EPA_range_avg), y = EPA_range_avg, fill = "red")) +
-  geom_col() +
+```{r q3_price_epa_range_scatter_plot, error = FALSE, warning = FALSE}
+# Create a scatter plot
+EPA_range_by_make_linear_scatter_plot <- ggplot(EV_range_value_df, aes(x = EPA_range_mi, y = Price)) +
+  geom_point() +
+  geom_smooth(method = 'lm') +
   labs(
-    title = "Bar Chart of Average EPA Range by Make",
-    x = "Make",
-    y = "AVG EPA Range (mi)"
+    title = "Scatter Plot of Price vs EPA Range",
+    subtitle = paste("Correlation Coefficient: ", round(cor(EV_range_value_df$Price, EV_range_value_df$EPA_range_mi), 2)),
+    x = "EPA Range",
+    y = "Price"
   ) +
-  theme_minimal() +
-  theme(legend.position = "none") # removes legend
+  theme_minimal()
 
-EPA_range_by_make_bar_chart
+EPA_range_by_make_linear_scatter_plot
 ```
 
 ## Question 4: How has the global supply of electric vehicles changed over the years?
