@@ -25,15 +25,12 @@ colnames(EV_range_value_General)[5] <- "EPA_range_mi"
 # Wangling Data to have case: make and attribute: make and avg epa range
 EV_range_value_df <- EV_range_value_General %>%
   mutate(Price = as.numeric(gsub(",", "", Price))) %>%
-  select(Price, EPA_range_mi, Make) %>%
-  transform(Price = as.numeric(Price)) %>%
-  group_by(Make) %>%
-  summarise(Price_avg = mean(Price), EPA_range_avg = mean(EPA_range_mi))
+  select(Price, EPA_range_mi, Make)
 
 # Create a scatter plot
-EPA_range_by_make_linear_scatter_plot <- ggplot(EV_range_value_df, aes(x = EPA_range_avg, y = Price_avg)) +
+EPA_range_by_make_linear_scatter_plot <- ggplot(EV_range_value_df, aes(x = EPA_range_mi, y = Price)) +
   geom_point() +
-  geom_smooth(method = 'lm', se = FALSE) +
+  geom_smooth(method = 'lm') +
   labs(
     title = "Scatter Plot of Price by EPA Range",
     x = "EPA Range",
