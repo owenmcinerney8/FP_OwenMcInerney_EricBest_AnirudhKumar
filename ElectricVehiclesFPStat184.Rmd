@@ -90,11 +90,12 @@ csv_path <- here("EVfuelstations.csv")
 EVfuelstations <- read.csv(csv_path)
 
 # EVcars Data for Q2
-
 csv_path <- here("EVcars.csv")
 EVcars <- read.csv(csv_path)
 
 # Dataset for Q3
+csv_path <- here("EV_range_value_General.csv")
+EV_range_value_General <- read.csv(csv_path)
 
 # IEA csv File for Q4 and Q5
 csv_path <- here("IEA_EV_SalesHistoricalCars.csv")
@@ -187,7 +188,15 @@ EVcars_mpge <- EVcars_tidy %>%
 
 # Q3: How do EV manufacturers compare in excursion range and vehicle price?
 
-# [Placeholder Wrangling Code]
+# Need to change name of EPA range attribute to access
+colnames(EV_range_value_General)[5] <- "EPA_range_mi"
+
+# Wangling Data to have case: make and attribute: make and avg epa range
+EV_range_value_df <- EV_range_value_General %>%
+  select(EPA_range_mi, Make) %>%
+  group_by(Make) %>%
+  summarise(EPA_range_avg = mean(EPA_range_mi)) %>%
+  head()
 
 # ---------------------------------------------------------------
 
@@ -376,6 +385,21 @@ EVcars_mpge_CityHighway_FiveNumSum %>%
 ## Question 3: How do EV manufacturers compare in excursion range and vehicle price?
 
 [Placeholder Text and Chunk]
+
+```{r q3_avg_eda_range_bar_chart, error = FALSE, warning = FALSE}
+# Create a bar chart
+EPA_range_by_make_bar_chart <- ggplot(EV_range_value_df, aes(x = reorder(Make, +EPA_range_avg), y = EPA_range_avg, fill = "red")) +
+  geom_col() +
+  labs(
+    title = "Bar Chart of Average EPA Range by Make",
+    x = "Make",
+    y = "AVG EPA Range (mi)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") # removes legend
+
+EPA_range_by_make_bar_chart
+```
 
 ## Question 4: How has the global supply of electric vehicles changed over the years?
 
