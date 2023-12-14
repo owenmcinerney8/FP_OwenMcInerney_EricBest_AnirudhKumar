@@ -32,7 +32,7 @@ EPA_range_by_make_linear_scatter_plot <- ggplot(EV_range_value_df, aes(x = EPA_r
   geom_point() +
   geom_smooth(method = 'lm') +
   labs(
-    title = "Scatter Plot of Price by EPA Range",
+    title = "Scatter Plot of Price vs EPA Range",
     subtitle = paste("Correlation Coefficient: ", round(cor(EV_range_value_df$Price, EV_range_value_df$EPA_range_mi), 2)),
     x = "EPA Range",
     y = "Price"
