@@ -325,7 +325,7 @@ state, with some present in State College, Harrisburg, Pittsburgh, and
 Philadelphia. Clearly, the northern part of the state has the fewest
 stations but that will probably change in time.
 
-```{r q1_station_map}
+```{r q1_station_map, echo = FALSE}
 # Create the leaflet map
 EVchargemap <- leaflet(station_data) %>%
   setView(lng = -77.8124, lat = 40.86833, zoom = 6) %>%  
@@ -346,7 +346,7 @@ can see from the table, Sedans generally outclass SUV's and Vans for
 fuel economy. Indeed, the average fuel economy for a Sedan is $97.5625$,
 placing this category above SUV's and far above Vans.
 
-```{r q2_economy_table, error = FALSE, warning = FALSE}
+```{r q2_economy_table, error = FALSE, warning = FALSE, echo = FALSE}
 funx <- list(
   min = ~min(.x, na.rm = TRUE),
   Q1 = ~quantile(.x, probs = 0.20, na.rm = TRUE),
@@ -384,7 +384,7 @@ EVcars_mpge_CityHighway_FiveNumSum %>%
 
 Below, we have reproduced a scatter plot that has EV's from a variety of manufacturers. It turns out that price and EPA are not strongly correlated, so people can reliably find a car with a good EPA for a reasonable price. We can see from the scatter plot that an expensive car doesn't necessarily have a high EPA.
 
-```{r q3_price_epa_range_scatter_plot, error = FALSE, warning = FALSE}
+```{r q3_price_epa_range_scatter_plot, error = FALSE, warning = FALSE, echo = FALSE}
 # Create a scatter plot
 EPA_range_by_make_linear_scatter_plot <- ggplot(EV_range_value_df, aes(x = EPA_range_mi, y = Price)) +
   geom_point() +
@@ -424,7 +424,7 @@ vehicles' supplied has increased exponentially each year since 2010. We
 can predict from this that there will be another significant increase in
 electric vehicles supplied for 2023.
 
-```{r q4_bar_plot}
+```{r q4_bar_plot, echo = FALSE}
 # Create Bar Chart of Global EV Ownership by Year -----------------------------
 global_ev_supply_by_year_bar_chart <- ggplot(EV_supply_global_year, aes(x = year, y = count, fill = "red")) +
   geom_col() +
@@ -458,7 +458,7 @@ production at a smaller cost. We can also see that Turkey, South Africa,
 and Chile have implemented electric cars the least. This is likely due
 to their economies not being as strong as China's or the United States.
 
-```{r q5_bar_plot}
+```{r q5_bar_plot, echo = FALSE}
 # Create bar chart of EV Ownership by Country ---------------------------------
 # use y = reorder(region, +count) to order countries by car ownership
 regional_ev_supply_bar_chart <- ggplot(EV_supply_region_2019_2022, aes(x = count, y = reorder(region, +count), fill = "red")) +
@@ -491,7 +491,7 @@ of electric vehicles. Also, electric vehicles directly convert a
 kilowatt hour to motion while gas-powered vehicle convert gas into heat
 which then creates motion.
 
-```{r q6_box_plot}
+```{r q6_box_plot, echo = FALSE}
 # Make Box Plots -------------------------------------------------------------
 # Combined MPGe Box Plot
 combined_mpge_box_plot <- EV_GAS_data %>%
@@ -525,7 +525,7 @@ is due to electric vehicles having nearly four times the average mpge
 than a gas-powered vehicle. Future evaluations should include costs to
 purchase the vehicles and costs of maintaining the vehicles.
 
-```{r q7_line_graph}
+```{r q7_line_graph, echo = FALSE}
 # Make Line Graph ------------------------------------------------------------
 miles_per_dollar_line_graph <- fuel_df %>%
   ggplot(aes(x = date, y = miles_per_dollar, color = type)) +

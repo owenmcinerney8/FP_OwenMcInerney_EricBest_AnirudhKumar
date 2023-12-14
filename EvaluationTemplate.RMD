@@ -1,8 +1,10 @@
 ---
 title: "Final Course Project Group Evaluations"
 author: "YOUR NAME"
-date: ""
-output: pdf_document
+date: ''
+output:
+  html_document:
+    df_print: paged
 ---
 <!--Directions
 Use this RMD template to complete peer and self evaluations for your final project. Be sure to answer all prompts for each team member and yourself. You'll upload the knitted PDF (not the RMD) to the appropriate Canvas Portal.
