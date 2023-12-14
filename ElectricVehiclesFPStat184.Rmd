@@ -380,9 +380,9 @@ EVcars_mpge_CityHighway_FiveNumSum %>%
   add_footnote("MPGe: Miles Per Gallon equivalent. This measures an EV's efficiency against gasoline vehicles")
 ```
 
-## Question 3: How do EV manufacturers compare in excursion range and vehicle price?
+## Question 3: How do EV manufacturers compare by price and EPA for their products?
 
-[Placeholder Text and Chunk]
+Below, we have reproduced a scatter plot that has EV's from a variety of manufacturers. It turns out that price and EPA are not strongly correlated, so people can reliably find a car with a good EPA for a reasonable price. We can see from the scatter plot that an expensive car doesn't necessarily have a high EPA.
 
 ```{r q3_price_epa_range_scatter_plot, error = FALSE, warning = FALSE}
 # Create a scatter plot
@@ -409,8 +409,9 @@ becoming more popular in homes, electric vehicles became a viable option
 for short trips. However, when Henry Ford came out with the Model T,
 which cost only \$650 per car, electric cars could not compete at \$1750
 per car. The world became accustomed to gas-powered vehicles, and gas
-still is the most common fuel source for vehicles. As science developed,
-electric cars have became cheaper and more efficient. In addition
+still is the most common fuel source for vehicles. 
+
+As science developed, electric cars have became cheaper and more efficient. In addition
 climate change, partially induced by gas-powered vehicles, has been a
 reason to make the switch to electric vehicles. Another reason for the
 switch to electric vehicles, in sudden gas shortages caused by war and
@@ -543,14 +544,11 @@ miles_per_dollar_line_graph
 ```
 ## Conclusion
 
-It's obvious from our data and visualizations that owning an electric vehicle is more viable than ever. We saw in Question 1 how charging stations are becoming more and more common. They are far more numerous than ever before. In Question 2, we generated statistics to show that electric sedans are a great choice for highway fuel economy.
-
-[Insert Question 3 discussion here]
+It's obvious from our data and visualizations that owning an electric vehicle is more viable than ever. We saw in Question 1 how charging stations are becoming more and more common. They are far more numerous than ever before. In Question 2, we generated statistics to show that electric sedans are a great choice for highway fuel economy. In Question 3, we used a scatter plot to show that it's possible to afford an EV with a lengthy EPA, and that an expensive or higher-end make EV doesn't always come with a high EPA.
 
 In Question 4, we saw that manufacturers are ramping up supply to meet increasing demands for these cars. Then, in Question 5, we examined a chart showing which countries are falling in love with EV's - America, China, and members of the EU. We can see that other countries such as Greece and Chile have yet to adopt these cars. In Question 6, we introduced a measurement of EV fuel efficiency called MPGe, and found that EV's outclass gasoline vehicles in this metric. Lastly, in Question 7, we showed a graph that suggests EV's are far more economical than conventional cars on a miles-per-dollar basis. 
 
 When we consider all of these factors, it's clear that electric vehicles are here to stay. 
-
 
 ## Code Appendix
 

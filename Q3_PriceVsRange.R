@@ -2,7 +2,7 @@
 #-Data Visualizations-
 #---------------------
 ## Please see Q0Notes_and_Ideas.txt for additional data questions and project documentation
-## Question 3: How do EV manufacturers compare in excursion range and vehicle price?
+## Question 3: How do EV manufacturers compare by price and EPA for their products?
 
 # Load Packages ----------------------------------------------------------------
 library(groundhog)

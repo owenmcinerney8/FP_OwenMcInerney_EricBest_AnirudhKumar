@@ -55,17 +55,17 @@ https://www.energy.gov/articles/history-electric-car
 ----------------------------
 -Data Exploration Questions-
 ----------------------------
-1. (Eric) How common are charging stations in Pennsylvania for public use? Answer: We will use the study in (4) to create a map of charging stations and discuss where they are located in this state.
+1. (Eric) How common are charging stations in Pennsylvania for public use? 
 
 RELEVANT R CODE FILE:   Q1StationMap.R
 RELEVANT DATASET FILE:  EVfuelstations.csv
 
-2. (Owen) What vehicle has the longest excursion time/length on a full-charge? Answer: We will use the study in (3) to analyze this data. 
+2. (Owen) What vehicle has the longest excursion time/length on a full-charge?
 
 RELEVANT R CODE FILE:   Q2FuelEconomy.R
 RELEVANT DATASET FILE:  EVcars.csv
 
-3. (VK) How do EV manufacturers compare by make and average EPA for their products?
+3. (VK) HQuestion 3: How do EV manufacturers compare by price and EPA for their products?
 
 RELEVANT R CODE FILE:   Q3PriceVsRange.R
 RELEVANT DATASET FILE:  EVrange_value_General.csv
