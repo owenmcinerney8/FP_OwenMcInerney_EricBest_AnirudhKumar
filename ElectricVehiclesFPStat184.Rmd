@@ -340,7 +340,6 @@ fuel economy. Indeed, the average fuel economy for a Sedan is $97.5625$,
 placing this category above SUV's and far above Vans.
 
 ```{r q2_economy_table, error = FALSE, warning = FALSE}
-
 funx <- list(
   min = ~min(.x, na.rm = TRUE),
   Q1 = ~quantile(.x, probs = 0.20, na.rm = TRUE),
@@ -362,11 +361,16 @@ EVcars_mpge_CityHighway_FiveNumSum <- EVcars_mpge %>%
       .fns = funx),
     count =n()
   )
+EVcars_mpge_CityHighway_FiveNumSum <- setNames(EVcars_mpge_CityHighway_FiveNumSum, 
+                                               c("Category", "Minimum", "1st Quartile", "2nd
+                                                 Quartile", "Median", "3rd Quartile", "4th Quartile","Max", "Mean", "Standard Deviation", "# of Vehicles"))
 
 # Display Table ---------------------------
 EVcars_mpge_CityHighway_FiveNumSum %>%
   kable() %>%
-  kableExtra::kable_classic()
+  kableExtra::kable_classic() %>%
+  add_header_above(c("EV Highway Economy, in MPGe" = 11))%>%
+  add_footnote("MPGe: Miles Per Gallon equivalent. This measures an EV's efficiency against gasoline vehicles")
 ```
 
 ## Question 3: How do EV manufacturers compare in excursion range and vehicle price?

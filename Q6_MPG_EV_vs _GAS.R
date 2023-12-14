@@ -85,12 +85,6 @@ green_house_gas_data <- EV_GAS_data %>%
     count = n()
   )
 
-greenhouse_gas_score_summary_table <- green_house_gas_data %>%
-  kable() %>%
-  kable_classic() %>%
-  add_header_above(c("EV Highway Economy, in MPGe" = 11))%>%
-  add_footnote("MPGe: Miles Per Gallon equivalent. This measures an EV's efficiency against gasoline vehicles")
-
 ### View Data Visualizations ---------------------------------------------------
 city_mpge_box_plot
 highway_mpge_box_plot
