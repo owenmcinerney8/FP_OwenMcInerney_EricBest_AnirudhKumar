@@ -36,7 +36,7 @@ EV_ownership_global_year <- EV_ownership_region_year_raw %>%
 # CREATE Bar Chart of Global EV Ownership by Year ----------------------------
 global_ev_ownership_by_year_bar_chart <- ggplot(EV_ownership_global_year, aes(x = year, y = count, fill = "red")) +
   geom_col() +
-  scale_y_continuous(n.breaks = 8, limits = c(0, max(EV_production_global_year$count))) +
+  scale_y_continuous(n.breaks = 8, limits = c(0, max(EV_ownership_global_year$count))) +
   scale_x_continuous(n.breaks = 11) +
   labs(
     title = "Global EV Ownership since 2010",
@@ -60,7 +60,7 @@ EV_ownership_region_2019_2022 <- EV_ownership_region_year_raw %>%
 # use y = reorder(region, +count) to order countries by car ownership
 regional_ev_ownership_bar_chart <- ggplot(EV_ownership_region_2019_2022, aes(x = count, y = reorder(region, +count), fill = "red")) +
   geom_col() +
-  scale_x_continuous(limits = c(0, max(EV_ownership_order_by_country$count)), n.breaks = 6) +
+  scale_x_continuous(limits = c(0, max(EV_ownership_region_2019_2022$count)), n.breaks = 6) +
   labs(
     title = "EV Ownership By Region",
     subtitle = "Total EVs Owned from 2019 to 2022 for each Region",
@@ -79,9 +79,6 @@ EV_ownership_region_2019_2022_order_count <- EV_ownership_region_2019_2022[order
 
 top_3_count <- (sum(EV_ownership_region_2019_2022_order_count[1:3, 2]) / sum(EV_ownership_region_2019_2022_order_count$count)) * 100
 bottom_count <- sum(EV_ownership_region_2019_2022_order_count[4:nrow(EV_ownership_region_2019_2022_order_count), 2]) / sum(EV_ownership_region_2019_2022_order_count$count) * 100
-
-top_3_count
-bottom_count
 
 top_vs_bottom_df <- data.frame(Top3 = c("Yes", "No"), percent = c(top_3_count, bottom_count)) # create data frame
 

@@ -24,16 +24,15 @@ colnames(EV_GAS_data_raw)[14] <- "highway_mpge"
 colnames(EV_GAS_data_raw)[15] <- "cmb_mpge"
 colnames(EV_GAS_data_raw)[16] <- "greenhouse_gas_score"
 
-# Select to Model, fuel, veh_class, air pollution score, city mpg, highway mpg, greenhouse gas score
+# Cases are cars with attributes: Model, fuel, vehicle class, air pollution score, city mpg, highway mpg, greenhouse gas score
 EV_GAS_data <- EV_GAS_data_raw %>%
   drop_na(city_mpge) %>%
   filter(Fuel == "Gasoline" | Fuel == "Electricity") %>%
-  select(Model, Fuel, veh_class, air_pollution_score, city_mpge, 
-         highway_mpge, cmb_mpge, greenhouse_gas_score) %>%
-  
+  select(Model, Fuel, veh_class, air_pollution_score, city_mpge, highway_mpge, cmb_mpge, greenhouse_gas_score) %>%
   mutate(
     city_mpge = as.numeric(city_mpge),
     highway_mpge = as.numeric(highway_mpge),
+    cmb_mpge = as.numeric(cmb_mpge),
     greenhouse_gas_score = as.numeric(greenhouse_gas_score)
   )
 
