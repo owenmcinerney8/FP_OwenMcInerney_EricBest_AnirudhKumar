@@ -1,0 +1,95 @@
+Country,Make,Model,Price,EPA Range (mi),$ / mi
+USA,Tesla,Model 3 RWD,"42,990",272,$158.05
+USA,Tesla,Model 3 Long Range,"50,990",358,$142.43
+USA,Tesla,Model 3 Performance,"53,990",315,$171.40
+USA,Tesla,Model Y Long Range,"54,990",330,$166.64
+USA,Tesla,Model Y Performance,"58,990",303,$194.69
+USA,Tesla,Model S,"89,990",405,$222.20
+USA,Tesla,Model S Plaid,"109,990",396,$277.75
+USA,Tesla,Model X,"99,990",351,$284.87
+USA,Tesla,Model X Plaid,"109,990",333,$330.30
+USA,Lucid,Air GT,"138,000",516,$267.44
+USA,Lucid,Air GT Performance,"179,000",446,$401.35
+USA,Lucid,Air Touring*,"107,400",425,$252.71
+USA,Lucid,Air Pure AWD*,"92,900",410,$226.59
+USA,Ford,F150 Lightning Pro,"55,974",240,$233.23
+USA,Ford,F150 Lightning XLT Extended,"80,974",320,$253.04
+USA,Ford,Mach-E Select RWD,"46,895",247,$189.86
+USA,Ford,Mach-E Select AWD,"49,595",224,$221.41
+USA,Ford,Mach-E Prem ER,"63,575",310,$205.08
+USA,Ford,Mach-E Prem ER AWD,"66,275",290,$228.53
+USA,Ford,Mach-E GT,"63,995",270,$237.02
+USA,Ford,Mach-E GT Performance,"69,995",260,$269.21
+USA,Chevrolet,Bolt,"27,496",259,$106.16
+USA,Chevrolet,Bolt EUV,"28,795",247,$116.58
+USA,GMC,Hummer EV,"107,000",329,$325.23
+USA,Cadillac,Lyriq RWD,"62,990",312,$201.89
+USA,Rivian,R1T Quad Large,"87,000",328,$265.24
+USA,Rivian,R1T Dual Standard*,"73,000",260,$280.77
+USA,Rivian,R1T Dual Max*,"89,000",400,$222.50
+USA,Rivian,R1S Quad Large,"92,000",321,$286.60
+USA,Rivian,R1S Dual Standard,"78,000",260,$300.00
+JPN,Toyota,BZ4X,"42,000",252,$166.67
+JPN,Toyota,BZ4X AWD,"44,080",228,$193.33
+JPN,Nissan,Leaf S,"28,040",149,$188.19
+JPN,Nissan,Leaf SV Plus,"36,040",212,$170.00
+JPN,Nissan,Ariya SR FWD,"43,190",212,$203.73
+JPN,Nissan,Ariya LR FWD,"47,190",304,$155.23
+JPN,Nissan,Ariya LR AWD,"51,190",289,$177.13
+JPN,Mazda,MX30,"34,110",100,$341.10
+JPN,Subaru,Solterra,"44,995",228,$197.35
+KOR,Hyundai,Kona,"33,550",258,$130.04
+KOR,Hyundai,IONIQ 5 SR RWD,"41,450",220,$188.41
+KOR,Hyundai,IONIQ 5 RWD,"45,500",303,$150.17
+KOR,Hyundai,IONIQ 5 AWD,"49,000",266,$184.21
+KOR,Kia,Niro,"39,550",253,$156.32
+KOR,Kia,EV6,"48,700",310,$157.10
+KOR,Kia,EV6 AWD,"52,600",282,$186.52
+KOR,Kia,EV6 GT,"61,600",206,$299.03
+KOR,Genesis,GV60,"59,290",248,$239.07
+KOR,Genesis,GV60 Performance,"68,290",235,$290.60
+KOR,Genesis,G80,"79,825",282,$283.07
+GER,VW,ID.4 SR,"38,995",209,$186.58
+GER,VW,ID.4,"43,995",275,$159.98
+GER,VW,ID.4 AWD,"47,795",255,$187.43
+GER,Audi,e-Tron,"70,800",226,$313.27
+GER,Audi,e-Tron Sportback,"74,000",225,$328.89
+GER,Audi,e-Tron S,"88,200",208,$424.04
+GER,Audi,e-Tron S Sportback,"90,800",212,$428.30
+GER,Audi,e-Tron GT,"104,900",236,$444.49
+GER,Audi,e-Tron RS GT,"143,900",232,$620.26
+GER,Audi,Q4 e-Tron,"49,800",265,$187.92
+GER,Audi,Q4 e-Tron AWD,"55,200",241,$229.05
+GER,Porsche,Taycan,"86,700",242,$358.26
+GER,Porsche,Taycan Plus,"92,480",282,$327.94
+GER,Porsche,Taycan 4 CrossTurismo,"97,700",235,$415.74
+GER,Porsche,Taycan 4S,"106,500",235,$453.19
+GER,Porsche,Taycan 4S Plus,"112,070",272,$412.02
+GER,Porsche,Taycan 4S CrossTurismo,"113,000",230,$491.30
+GER,Porsche,Taycan GTS,"134,100",246,$545.12
+GER,Porsche,Taycan GTS SportTurismo,"136,000",233,$583.69
+GER,Porsche,Taycan Turbo,"153,300",238,$644.12
+GER,Porsche,Taycan Turbo CrossTurismo,"155,900",233,$669.10
+GER,Porsche,Taycan Turbo S,"187,400",222,$844.14
+GER,Porsche,Taycan Turbo S CrossTurismo,"190,000",222,$855.86
+GER,BMW,i4 e35,"51,400",256,$200.78
+GER,BMW,i4 e40,"55,900",301,$185.71
+GER,BMW,i4 M50,"67,300",271,$248.34
+GER,BMW,i7 x60,"119,300",318,$375.16
+GER,BMW,iX x50,"84,100",324,$259.57
+GER,BMW,iX m60,"108,900",288,$378.13
+GER,Mini,Cooper SE,"34,225",114,$300.22
+GER,Mercedes,EQB,"54,500",243,$224.28
+GER,Mercedes,EQE*,"74,900",305,$245.57
+GER,Mercedes,EQS 450+ Sedan,"102,310",350,$292.31
+GER,Mercedes,EQS 450 4Matic,"107,400",340,$315.88
+GER,Mercedes,EQS 580 4Matic,"125,900",340,$370.29
+GER,Mercedes,AMG EQS 53,"147,500",277,$532.49
+GER,Mercedes,EQS 450+ SUV,"104,400",305,$342.30
+GER,Mercedes,EQS 450 4Matic SUV,"107,400",285,$376.84
+GER,Mercedes,EQS 580 4Matic SUV,"125,950",285,$441.93
+GBR,Jaguar,I-PACE,"71,300",246,$289.84
+SWE,Volvo,XC40 Recharge,"53,550",223,$240.13
+SWE,Volvo,C40 Recharge,"55,300",226,$244.69
+SWE,Polestar,2 FWD,"48,400",270,$179.26
+SWE,Polestar,2 AWD,"51,900",260,$199.62
