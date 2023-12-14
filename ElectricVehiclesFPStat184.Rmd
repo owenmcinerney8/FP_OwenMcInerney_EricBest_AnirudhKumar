@@ -94,7 +94,7 @@ csv_path <- here("EVcars.csv")
 EVcars <- read.csv(csv_path)
 
 # Dataset for Q3
-csv_path <- here("EV_range_value_General.csv")
+csv_path <- here("EVrange_value_General.csv")
 EV_range_value_General <- read.csv(csv_path)
 
 # IEA csv File for Q4 and Q5
