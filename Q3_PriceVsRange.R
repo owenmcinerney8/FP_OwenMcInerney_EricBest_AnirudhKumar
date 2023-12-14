@@ -4,27 +4,39 @@
 ## Please see Q0Notes_and_Ideas.txt for additional data questions and project documentation
 ## Question 3: How do EV manufacturers compare in excursion range and vehicle price?
 
-# Package and Filepath Configuration ---------------------------
-library(here)
-library(readr)
-library(ggplot2)
+# Load Packages ----------------------------------------------------------------
+library(groundhog)
+groundhog.day <- "2023-11-20"
+pkgs <- c("here", "dplyr", "readr", "ggplot2", "tidyverse")
+groundhog.library(pkgs, groundhog.day)
 
-# Read the data from the CSV file - traditional way
-#EV_range_value_General <- read_csv("~/Downloads/EV_range_value_General.csv")
+# Load Data --------------------------------------------------------------------
+# Using 'here' for a relative file path
+# Ensures scientific notation is not used
+csv_path <- here("EV_range_value_General.csv")
+EV_range_value_General <- read.csv(csv_path)
 
-# Including 'here' functionality for portable codes
-# 'here' needs the file to be in the current directory, in our case, in the Github repository. It needs to be uploaded
-#csv_path <- here("EV_range_value_General.csv")
-#EV_range_value_General <- read.csv(csv_path)
+# Data Wrangling ---------------------------------------------------------------
 
-# Data Wrangling ---------------------------
-# View the structure of the data to verify column names and types
-str(EV_range_value_General)
+# Need to change name of EPA range attribute to access
+colnames(EV_range_value_General)[5] <- "EPA_range_mi"
 
-# Create a scatter plot
-ggplot(EV_range_value_General, aes(x = `EPA Range (mi)`, y = Price, color = Make)) +
-  geom_point() +
-  labs(title = "Scatter Plot of Price vs EPA Range",
-       x = "EPA Range (mi)",
-       y = "Price") +
-  theme_minimal()
+# Wangling Data to have case: make and attribute: make and avg epa range
+EV_range_value_df <- EV_range_value_General %>%
+  select(EPA_range_mi, Make) %>%
+  group_by(Make) %>%
+  summarise(EPA_range_avg = mean(EPA_range_mi)) %>%
+  head()
+
+# Create a bar chart
+EPA_range_by_make_bar_chart <- ggplot(EV_range_value_df, aes(x = reorder(Make, +EPA_range_avg), y = EPA_range_avg, fill = "red")) +
+  geom_col() +
+  labs(
+    title = "Bar Chart of Average EPA Range by Make",
+    x = "Make",
+    y = "AVG EPA Range (mi)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") # removes legend
+
+EPA_range_by_make_bar_chart
