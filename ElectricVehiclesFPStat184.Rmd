@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = FALSE)
 # Style of Choice -- TidyVerse Styling
 library(groundhog)
 groundhog.day <- "2023-11-20"
-pkgs <- c("here", "dplyr", "dbplyr", "ggplot2", "readxl", "tidyverse", "knitr", "kableExtra", "leaflet", "esquisse")
+pkgs <- c("here", "dplyr", "dbplyr", "ggplot2", "readxl", "tidyverse", "knitr", "kableExtra", "leaflet")
 groundhog.library(pkgs, groundhog.day)
 ```
 

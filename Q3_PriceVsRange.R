@@ -13,7 +13,8 @@ groundhog.library(pkgs, groundhog.day)
 # Load Data --------------------------------------------------------------------
 # Using 'here' for a relative file path
 # Ensures scientific notation is not used
-csv_path <- here("EV_range_value_General.csv")
+options(scipen = 999) 
+csv_path <- here("EVrange_value_General.csv")
 EV_range_value_General <- read.csv(csv_path)
 
 # Data Wrangling ---------------------------------------------------------------
@@ -23,20 +24,21 @@ colnames(EV_range_value_General)[5] <- "EPA_range_mi"
 
 # Wangling Data to have case: make and attribute: make and avg epa range
 EV_range_value_df <- EV_range_value_General %>%
-  select(EPA_range_mi, Make) %>%
+  mutate(Price = as.numeric(gsub(",", "", Price))) %>%
+  select(Price, EPA_range_mi, Make) %>%
+  transform(Price = as.numeric(Price)) %>%
   group_by(Make) %>%
-  summarise(EPA_range_avg = mean(EPA_range_mi)) %>%
-  head()
+  summarise(Price_avg = mean(Price), EPA_range_avg = mean(EPA_range_mi))
 
-# Create a bar chart
-EPA_range_by_make_bar_chart <- ggplot(EV_range_value_df, aes(x = reorder(Make, +EPA_range_avg), y = EPA_range_avg, fill = "red")) +
-  geom_col() +
+# Create a scatter plot
+EPA_range_by_make_linear_scatter_plot <- ggplot(EV_range_value_df, aes(x = EPA_range_avg, y = Price_avg)) +
+  geom_point() +
+  geom_smooth(method = 'lm', se = FALSE) +
   labs(
-    title = "Bar Chart of Average EPA Range by Make",
-    x = "Make",
-    y = "AVG EPA Range (mi)"
+    title = "Scatter Plot of Price by EPA Range",
+    x = "EPA Range",
+    y = "Price"
   ) +
-  theme_minimal() +
-  theme(legend.position = "none") # removes legend
+  theme_minimal()
 
-EPA_range_by_make_bar_chart
+EPA_range_by_make_linear_scatter_plot
